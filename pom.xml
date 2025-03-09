@@ -12,7 +12,7 @@
 	<artifactId>jwt-auth-postgresql</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>jwt-auth-postgresql</name>
-	<description>Demo project for Spring Boot</description>
+	<description>This project is a REST API for managing Netflix Shows, built using Spring Boot 3.4.2. It leverages PostgreSQL as the database, Spring Data JPA for data management, and Spring Boot Starter Security for authentication and authorization. The API is secured using JWT (JSON Web Token), implemented with the open-source JJWT library</description>
 	<url/>
 	<licenses>
 		<license/>
