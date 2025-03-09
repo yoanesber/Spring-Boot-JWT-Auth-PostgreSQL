@@ -275,9 +275,9 @@ The REST API provides a set of endpoints to manage Netflix shows, allowing clien
 
 ### Authentication
 #### Login
-Login API allows users to authenticate by providing valid credentials. Upon successful authentication, the server responds with an access token and a refresh token. The access token is used for making authorized requests, while the refresh token is used to obtain a new access token when the previous one expires.
-
 `POST` http://localhost:8081/api/v1/auth/login
+
+Login API allows users to authenticate by providing valid credentials. Upon successful authentication, the server responds with an access token and a refresh token. The access token is used for making authorized requests, while the refresh token is used to obtain a new access token when the previous one expires.
 
 **Request Body:**
 ```json
@@ -322,10 +322,11 @@ Login API allows users to authenticate by providing valid credentials. Upon succ
 }
 ```
 
-#### Refresh Token API
-Refresh Token API is used to renew an expired access token without requiring the user to log in again. Clients send a valid refresh token, and the server issues a new access token and a new refresh token.
 
+#### Refresh Token API
 `POST` http://localhost:8081/api/v1/auth/refresh-token
+
+Refresh Token API is used to renew an expired access token without requiring the user to log in again. Clients send a valid refresh token, and the server issues a new access token and a new refresh token.
 
 **Request Body:**
 ```json
@@ -369,13 +370,14 @@ Refresh Token API is used to renew an expired access token without requiring the
 }
 ```
 
+
 ### Netflix Shows API
 Netflix Show API allows users to perform CRUD operations on Netflix Shows. Users can create, retrieve, update, and delete show records. Access to these endpoints requires authentication via JWT.
 
 #### Create a Netflix Show
-Create a new Netflix Show
-
 `POST` http://localhost:8081/api/v1/netflix-shows
+
+This endpoint allows users to create a new Netflix show by providing relevant details in the request body. Ensure that a valid JWT token is included in the Authorization header.
 
 **Request Body:**
 ```json
@@ -428,9 +430,9 @@ Create a new Netflix Show
 ```
 
 #### Get All Netflix Shows
-Retrieve all Netflix Shows
-
 `GET` http://localhost:8081/api/v1/netflix-shows
+
+Retrieves a list of all Netflix shows stored in the database.
 
 **Successful Response:**
 ```json
@@ -458,9 +460,9 @@ Retrieve all Netflix Shows
 ```
 
 #### Get Netflix Show by ID
-Retrieve a specific Netflix Show by ID
+`GET` http://localhost:8081/api/v1/netflix-shows/{id}
 
-`GET` http://localhost:8081/api/v1/netflix-shows/1
+Fetches the details of a specific Netflix show using its unique ID.
 
 **Successful Response:**
 ```json
@@ -486,9 +488,9 @@ Retrieve a specific Netflix Show by ID
 ```
 
 #### Update a Netflix Show
-Update an existing Netflix
+`PUT` http://localhost:8081/api/v1/netflix-shows/{id}
 
-`PUT` http://localhost:8081/api/v1/netflix-shows/1
+Allows updating the details of an existing Netflix show.
 
 **Request Body:**
 ```json
@@ -541,9 +543,9 @@ Update an existing Netflix
 ```
 
 #### Delete a Netflix Show
-Delete a Netflix Show
+`DELETE` http://localhost:8081/api/v1/netflix-shows/{id}
 
-`DELETE` http://localhost:8081/api/v1/netflix-shows/1
+Deletes a specific Netflix show from the database.
 
 **Successful Response:**
 ```json
