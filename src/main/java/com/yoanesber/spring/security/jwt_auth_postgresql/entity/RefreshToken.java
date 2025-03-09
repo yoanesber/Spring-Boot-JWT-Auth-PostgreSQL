@@ -1,0 +1,40 @@
+package com.yoanesber.spring.security.jwt_auth_postgresql.entity;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.Table;
+import java.time.Instant;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Entity
+@Table(name = "refresh_token")
+public class RefreshToken {
+    @EmbeddedId
+    private RefreshTokenId id;
+
+    @Column(nullable = false)
+    private Instant expiryDate;
+    
+    @OneToOne
+    @MapsId("userId")
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @Override
+    public String toString() {
+        return "RefreshToken [id=" + id + ", expiryDate=" + expiryDate + "]";
+    }
+}
