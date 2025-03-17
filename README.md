@@ -7,7 +7,6 @@ A key aspect of this project is the implementation of **JJWT** to create and ver
 
 ---
 
-
 ## ✨Tech Stack
 The technology used in this project are:
 - `Spring Boot 3.4.2` : Framework for building RESTful APIs
@@ -21,28 +20,18 @@ The technology used in this project are:
 ## 📋 Project Structure
 The project is organized into the following package structure:
 ```bash
-- controller 
-- dto 
-- entity 
-- repository 
-- service 
-  \---impl
-- config 
-  \---serializer
-- handler
+jwt-auth-postgresql/
+│── src/main/java/com/yoanesber/spring/security/jwt_auth_postgresql/
+│   ├── config/                # Holds configuration classes, including security, CORS, and application properties.
+│   │   ├── serializer/        # Contains custom serializers and deserializers for JSON processing.
+│   ├── controller/            # Contains REST controllers that handle HTTP requests and return responses.
+│   ├── dto/                   # Data Transfer Objects (DTOs) for request/response payloads.
+│   ├── entity/                # Contains JPA entity classes representing database tables.
+│   ├── handler/               # Manages global exception handling and API error responses.
+│   ├── repository/            # Provides database access functionality using Spring Data JPA.
+│   ├── service/               # Business logic layer
+│   │   ├── impl/              # Implementation of services
 ```
-
-### Explanation of Each Package
-- **controller**: Contains REST controllers that handle HTTP requests and return responses.
-- **dto**: Data Transfer Objects (DTOs) for request/response payloads.
-- **entity**: Contains JPA entity classes representing database tables.
-- **repository**: Provides database access functionality using Spring Data JPA.
-- **service**: Defines business logic and application functionality.
-    - **impl**: Implements the service interfaces.
-- **config**: Holds configuration classes, including security, CORS, and application properties.
-    - **serializer**: Contains custom serializers and deserializers for JSON processing.
-- **handler**: Manages global exception handling and API error responses.
-
 ---
 
 ## 📂 Environment Configuration
