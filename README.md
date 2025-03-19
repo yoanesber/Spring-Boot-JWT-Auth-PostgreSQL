@@ -560,6 +560,7 @@ Deletes a specific Netflix show from the database.
 ## 🗒️ Notes
 - **JWT Expiration**: The access token has a limited validity period. Clients should use the refresh token to obtain a new access token when expired.
 - **Authorization**: Every API request must include a valid JWT token in the Authorization header (Bearer <JWT Token>).
+- **Stateless or Stateful Authentication**: When implementing authentication with JWT, it's important to consider whether to use a stateless or stateful approach based on the application's needs.
 - **Data Validation**: Requests with missing or invalid fields will return a 400 Bad Request response.
 - **Security Considerations**:
     - Never expose JWT tokens in frontend code or logs.
