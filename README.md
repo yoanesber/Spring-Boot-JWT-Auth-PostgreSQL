@@ -9,12 +9,12 @@ A key aspect of this project is the implementation of **JJWT** to create and ver
 
 ## ✨Tech Stack
 The technology used in this project are:
-- `Spring Boot 3.4.2` : Framework for building RESTful APIs
-- `Spring Data JPA with Hibernate` : Simplifying database interactions
-- `Spring Boot Starter Web` : Building RESTful APIs or web applications
-- `PostgreSQL` : Serves as the database for storing Netflix Shows
-- `Lombok` : Reducing boilerplate code
-- `JJWT (api, impl, jackson)` : Open-source library for creating and verifying JSON Web Tokens (JWTs) used for authentication.
+- `Spring Boot 3.4.2` – Framework for building RESTful APIs
+- `Spring Data JPA with Hibernate` – Simplifying database interactions
+- `Spring Boot Starter Web` – Building RESTful APIs or web applications
+- `PostgreSQL` – Serves as the database for storing Netflix Shows
+- `Lombok` – Reducing boilerplate code
+- `JJWT (api, impl, jackson)` – Open-source library for creating and verifying JSON Web Tokens (JWTs) used for authentication.
 ---
 
 ## 📋 Project Structure
@@ -568,3 +568,6 @@ Deletes a specific Netflix show from the database.
     - Implement role-based access control (RBAC) to restrict API actions based on user roles, ensuring that only authorized users can perform specific operations. Assign different roles such as 'ADMIN' and 'USER' to enforce proper access levels.
 - **Database Schema**: Ensure all necessary tables (users, roles, netflix_shows) are created and populated correctly.
 - **Error Handling**: The API provides meaningful error messages with appropriate HTTP status codes (400, 401, 403, 404, 500).
+
+## 📌 Reference
+- JWT Authentication with Kong GitHub Repository, check out [Spring Boot Department API with Kong JWT Authentication (DB-Backed Mode)](https://github.com/yoanesber/Spring-Boot-JWT-Auth-Kong).
