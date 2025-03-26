@@ -569,5 +569,7 @@ Deletes a specific Netflix show from the database.
 - **Database Schema**: Ensure all necessary tables (users, roles, netflix_shows) are created and populated correctly.
 - **Error Handling**: The API provides meaningful error messages with appropriate HTTP status codes (400, 401, 403, 404, 500).
 
+---
+
 ## 📌 Reference
 - JWT Authentication with Kong GitHub Repository, check out [Spring Boot Department API with Kong JWT Authentication (DB-Backed Mode)](https://github.com/yoanesber/Spring-Boot-JWT-Auth-Kong).
