@@ -11,10 +11,10 @@ A key aspect of this project is the implementation of **JJWT** to **create and v
 The technology used in this project are:
 - `Spring Boot Starter Web` – Building RESTful APIs or web applications
 - `Spring Security` – Provides authentication and authorization mechanisms, ensuring secure access to the application.
+- `JJWT (api, impl, jackson)` – Open-source library for creating and verifying JSON Web Tokens (JWTs) used for authentication.
 - `PostgreSQL` – Serves as the database for storing Netflix Shows
 - `Hibernate` – Simplifying database interactions
 - `Lombok` – Reducing boilerplate code
-- `JJWT (api, impl, jackson)` – Open-source library for creating and verifying JSON Web Tokens (JWTs) used for authentication.
 ---
 
 ## 🏗️ Project Structure
