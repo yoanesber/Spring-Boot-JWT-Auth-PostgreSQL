@@ -1,4 +1,4 @@
- # Netflix Shows REST API with JWT Authentication
+# Netflix Shows REST API with JWT Authentication
 
 ## 📖 Overview
 This project is a **REST API** for managing **Netflix Shows**, built using **Spring Boot**. It leverages **PostgreSQL** as the database, **Spring Data JPA** for data management, and **Spring Boot Starter Security** for authentication and authorization. The API is secured using **JWT (JSON Web Token)**, implemented with the open-source JJWT library.  
