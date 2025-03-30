@@ -258,9 +258,7 @@ mvn spring-boot:run
 http://localhost:8081/ 
 ```
 
-You can test the API using:
-    - Postman (Desktop/Web version)
-    - cURL
+You can test the API using: Postman (Desktop/Web version) or cURL
 
 ---
 
