@@ -1,55 +1,55 @@
- # ⚡Netflix Shows REST API with JWT Authentication
+ # Netflix Shows REST API with JWT Authentication
 
-## 🚀 Overview
-This project is a **REST API** for managing **Netflix Shows**, built using `Spring Boot 3.4.2`. It leverages `PostgreSQL` as the database, `Spring Data JPA` for data management, and `Spring Boot Starter Security` for authentication and authorization. The API is secured using `JWT (JSON Web Token)`, implemented with the open-source JJWT library.
+## 📖 Overview
+This project is a **REST API** for managing **Netflix Shows**, built using **Spring Boot**. It leverages **PostgreSQL** as the database, **Spring Data JPA** for data management, and **Spring Boot Starter Security** for authentication and authorization. The API is secured using **JWT (JSON Web Token)**, implemented with the open-source JJWT library.  
 
-A key aspect of this project is the implementation of **JJWT** to create and verify JWTs as an authentication mechanism for accessing NetflixShows resources. JWT is used as a Bearer token, meaning it is included in the Authorization header of HTTP requests to authenticate users. Compared to traditional session-based authentication, JWT provides a **stateless and scalable** approach, reducing the need for server-side session storage. Unlike API keys, JWTs offer **built-in expiration** and **can carry claims**, allowing for **more flexible authorization strategies**.
+A key aspect of this project is the implementation of **JJWT** to **create and verify JWTs** as an authentication mechanism for accessing NetflixShows resources. JWT is used as a Bearer token, meaning it is included in the Authorization header of HTTP requests to authenticate users. Compared to traditional session-based authentication, JWT provides a **stateless and scalable** approach, reducing the need for server-side session storage. Unlike API keys, JWTs offer **built-in expiration** and **can carry claims**, allowing for **more flexible authorization strategies**.
 
 ---
 
-## ✨Tech Stack
+## 🤖 Tech Stack
 The technology used in this project are:
-- `Spring Boot 3.4.2` – Framework for building RESTful APIs
-- `Spring Data JPA with Hibernate` – Simplifying database interactions
 - `Spring Boot Starter Web` – Building RESTful APIs or web applications
+- `Spring Security` – Provides authentication and authorization mechanisms, ensuring secure access to the application.
 - `PostgreSQL` – Serves as the database for storing Netflix Shows
+- `Hibernate` – Simplifying database interactions
 - `Lombok` – Reducing boilerplate code
 - `JJWT (api, impl, jackson)` – Open-source library for creating and verifying JSON Web Tokens (JWTs) used for authentication.
 ---
 
-## 📋 Project Structure
+## 🏗️ Project Structure
 The project is organized into the following package structure:
 ```bash
 jwt-auth-postgresql/
 │── src/main/java/com/yoanesber/spring/security/jwt_auth_postgresql/
-│   ├── config/                # Holds configuration classes, including security, CORS, and application properties.
-│   │   ├── serializer/        # Contains custom serializers and deserializers for JSON processing.
-│   ├── controller/            # Contains REST controllers that handle HTTP requests and return responses.
-│   ├── dto/                   # Data Transfer Objects (DTOs) for request/response payloads.
-│   ├── entity/                # Contains JPA entity classes representing database tables.
-│   ├── handler/               # Manages global exception handling and API error responses.
-│   ├── repository/            # Provides database access functionality using Spring Data JPA.
-│   ├── service/               # Business logic layer
-│   │   ├── impl/              # Implementation of services
+│   ├── 📂config/                # Holds configuration classes, including security, CORS, and application properties.
+│   │   ├── 📂serializer/        # Contains custom serializers and deserializers for JSON processing.
+│   ├── 📂controller/            # Contains REST controllers that handle HTTP requests and return responses.
+│   ├── 📂dto/                   # Data Transfer Objects (DTOs) for request/response payloads.
+│   ├── 📂entity/                # Contains JPA entity classes representing database tables.
+│   ├── 📂handler/               # Manages global exception handling and API error responses.
+│   ├── 📂repository/            # Provides database access functionality using Spring Data JPA.
+│   ├── 📂service/               # Business logic layer
+│   │   ├── 📂impl/              # Implementation of services
 ```
 ---
 
-## 📂 Environment Configuration
-Configuration values are stored in `.env.development` and referenced in `application.properties`.
-
+## ⚙ Environment Configuration
+Configuration values are stored in `.env.development` and referenced in `application.properties`.  
 Example `.env.development` file content:
 ```properties
-# application
+# Application properties
 APP_PORT=8081
 SPRING_PROFILES_ACTIVE=development
 
-# postgres
+# Database properties
 SPRING_DATASOURCE_PORT=5432
-SPRING_DATASOURCE_USERNAME=myusername
-SPRING_DATASOURCE_PASSWORD=mypassword 
-SPRING_DATASOURCE_DB=netflix_development
+SPRING_DATASOURCE_USERNAME=your_username
+SPRING_DATASOURCE_PASSWORD=your_password 
+SPRING_DATASOURCE_DB=your_db
+SPRING_DATASOURCE_SCHEMA=your_schema
 
-# jwt
+# jwt properties
 JWT_HEADER=Authorization
 JWT_PREFIX=Bearer
 JWT_TOKEN_NAME=accessToken
@@ -65,7 +65,7 @@ JWT_COOKIE_SECURE=true
 JWT_COOKIE_SAME_SITE=Lax
 JWT_COOKIE_RESPONSE_ENABLED=false
 
-#cors
+#cors properties
 CORS_ALLOWED_ORIGINS=http://localhost:8082
 CORS_ALLOWED_METHODS=GET,POST,PUT,DELETE,OPTIONS
 CORS_ALLOWED_HEADERS=Authorization,Cache-Control,Content-Type
@@ -74,31 +74,24 @@ CORS_MAX_AGE=3600
 CORS_EXPOSED_HEADERS=Authorization
 CORS_CONFIGURATION_ENDPOINT=/**
 
-# http security
-SECURITY_PERMIT_ALL_REQUEST_URL=/api/v1/auth/**
-SECURITY_EXCLUDED_PATHS_FOR_AUTHENTICATION=/api/v1/auth/login,/api/v1/auth/refresh-token
+# Security properties
+PERMIT_ALL_REQUEST_URL=/api/v1/auth/**
+EXCLUDED_PATHS_FOR_AUTHENTICATION=/api/v1/auth/login,/api/v1/auth/refresh-token
 ```
 
 Example `application.properties` file content:
 ```properties
-## application
+# Application properties
 spring.application.name=jwt-auth-postgresql
 server.port=${APP_PORT}
 spring.profiles.active=${SPRING_PROFILES_ACTIVE}
 
-## datasource 
-spring.datasource.url=jdbc:postgresql://localhost:${SPRING_DATASOURCE_PORT}/${SPRING_DATASOURCE_DB}?currentSchema=netflix
+# Database properties
+spring.datasource.url=jdbc:postgresql://localhost:${SPRING_DATASOURCE_PORT}/${SPRING_DATASOURCE_DB}?currentSchema=${SPRING_DATASOURCE_SCHEMA}
 spring.datasource.username=${SPRING_DATASOURCE_USERNAME}
 spring.datasource.password=${SPRING_DATASOURCE_PASSWORD}
 
-## hibernate 
-spring.jpa.show-sql=true
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.hibernate.naming.implicit-strategy=org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
-spring.jpa.properties.hibernate.format_sql=true
-spring.jpa.open-in-view=true
-
-## jwt configuration
+# jwt properties
 jwt.header=${JWT_HEADER}
 jwt.prefix=${JWT_PREFIX}
 jwt.tokenName=${JWT_TOKEN_NAME}
@@ -114,7 +107,7 @@ jwt.cookieHttpOnly=${JWT_COOKIE_HTTP_ONLY}
 jwt.cookieSameSite=${JWT_COOKIE_SAME_SITE}
 jwt.cookieResponseEnabled=${JWT_COOKIE_RESPONSE_ENABLED}
 
-## cors configuration
+#cors properties
 cors-allowed-origins=${CORS_ALLOWED_ORIGINS}
 cors-allowed-methods=${CORS_ALLOWED_METHODS}
 cors-allowed-headers=${CORS_ALLOWED_HEADERS}
@@ -123,20 +116,19 @@ cors-max-age=${CORS_MAX_AGE}
 cors-exposed-headers=${CORS_EXPOSED_HEADERS}
 cors-configuration-endpoint=${CORS_CONFIGURATION_ENDPOINT}
 
-## http security
-permit-all-request-url=${SECURITY_PERMIT_ALL_REQUEST_URL}
-excluded-paths-for-authentication=${SECURITY_EXCLUDED_PATHS_FOR_AUTHENTICATION}
+# Security properties
+permit-all-request-url=${PERMIT_ALL_REQUEST_URL}
+excluded-paths-for-authentication=${EXCLUDED_PATHS_FOR_AUTHENTICATION}
 ```
 ---
 
 ## 💾 Database Schema (DDL – PostgreSQL)
-The following is the database schema for the PostgreSQL database used in this project:
-
+The following is the database schema for the PostgreSQL database used in this project:  
 ```sql
-CREATE SCHEMA netflix;
+CREATE SCHEMA your_schema;
 
 -- create table roles
-CREATE TABLE IF NOT EXISTS netflix.roles
+CREATE TABLE IF NOT EXISTS your_schema.roles
 (
 	id integer NOT NULL GENERATED BY DEFAULT AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
 	name character varying(20) COLLATE pg_catalog."default" NOT NULL,
@@ -144,14 +136,14 @@ CREATE TABLE IF NOT EXISTS netflix.roles
 );
 
 -- feed data roles
-INSERT INTO netflix.roles ("name") VALUES
+INSERT INTO your_schema.roles ("name") VALUES
 	 ('ROLE_USER'),
 	 ('ROLE_MODERATOR'),
 	 ('ROLE_ADMIN');
 
 
 -- create table users
-CREATE TABLE IF NOT EXISTS netflix.users
+CREATE TABLE IF NOT EXISTS your_schema.users
 (
 	id bigint NOT NULL GENERATED BY DEFAULT AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1 ),
 	username character varying(20) COLLATE pg_catalog."default" NOT NULL,
@@ -180,12 +172,12 @@ CREATE TABLE IF NOT EXISTS netflix.users
 
 -- feed data users
 -- both superadmin and channel1 password is `P@ssw0rd`
-INSERT INTO netflix.users (username,"password",email,firstname,lastname,is_enabled,is_account_non_expired,is_account_non_locked,is_credentials_non_expired,is_deleted,account_expiration_date,credentials_expiration_date,last_login,user_type,created_by,created_date,updated_by,updated_date) VALUES
+INSERT INTO your_schema.users (username,"password",email,firstname,lastname,is_enabled,is_account_non_expired,is_account_non_locked,is_credentials_non_expired,is_deleted,account_expiration_date,credentials_expiration_date,last_login,user_type,created_by,created_date,updated_by,updated_date) VALUES
 	 ('superadmin','$2a$10$71wrLlzlkJ/54ZWDwA6KiegFX0naXg.T2zvKB2EbyqdS1Yl7Cwt1W','superadmin@youremail.com','Super','Admin',true,true,true,true,false,'2025-04-23 21:52:38+07','2025-02-28 01:58:35.835127+07','2025-02-11 22:54:32.816+07','USER_ACCOUNT','system','2024-09-04 03:42:58.847+07','system','2024-11-28 01:58:35.835+07'),
 	 ('channel1','$2a$10$eP5Sddi7Q5Jv6seppeF93.XsWGY8r4PnsqprWGb5AxsZ9TpwULIGa','channel1@youremail.com','Channel','One',true,true,true,true,false,'2025-07-14 19:50:56.880054+07','2025-05-11 22:57:25.611336+07','2025-02-10 14:53:04.704+07','SERVICE_ACCOUNT','superadmin','2024-09-04 03:44:48.827+07','superadmin','2025-02-11 22:57:25.609+07');
 
 -- create table user_roles
-CREATE TABLE IF NOT EXISTS netflix.user_roles
+CREATE TABLE IF NOT EXISTS your_schema.user_roles
 (
     user_id bigint NOT NULL,
     role_id integer NOT NULL,
@@ -201,7 +193,7 @@ CREATE TABLE IF NOT EXISTS netflix.user_roles
 )
 
 -- feed data user_roles
-INSERT INTO netflix.user_roles (user_id,role_id) VALUES
+INSERT INTO your_schema.user_roles (user_id,role_id) VALUES
 	 (1,1),
 	 (1,2),
 	 (1,3),
@@ -209,7 +201,7 @@ INSERT INTO netflix.user_roles (user_id,role_id) VALUES
 
 
 -- create table netflix_shows
-CREATE TABLE IF NOT EXISTS netflix.netflix_shows (
+CREATE TABLE IF NOT EXISTS your_schema.netflix_shows (
     id bigint NOT NULL GENERATED BY DEFAULT AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 9223372036854775807 CACHE 1 ),
 	"type" varchar(7) NOT NULL,
 	title text NOT NULL,
@@ -228,46 +220,58 @@ CREATE TABLE IF NOT EXISTS netflix.netflix_shows (
 ```
 ---
 
-## 🛠 Installation & Setup
-A step by step series of examples that tell you how to get a development env running.
-1. Clone the repository
+## 🛠️ Installation & Setup
+A step by step series of examples that tell you how to get a development env running.  
+1. Ensure you have **Git installed on your Windows** machine, then clone the repository to your local environment:
 ```bash
 git clone https://github.com/yoanesber/Spring-Boot-JWT-Auth-PostgreSQL.git
 cd Spring-Boot-JWT-Auth-PostgreSQL
 ```
 
-2. Set up PostgreSQL
+2. Set up PostgreSQL  
 - Run the provided DDL script to set up the database schema
 - Configure the connection in `.env.development` file:
 ```properties
-# postgres
+# Database properties
 SPRING_DATASOURCE_PORT=5432
-SPRING_DATASOURCE_USERNAME=myusername
-SPRING_DATASOURCE_PASSWORD=mypassword
-SPRING_DATASOURCE_DB=netflix_development
+SPRING_DATASOURCE_USERNAME=your_username
+SPRING_DATASOURCE_PASSWORD=your_password
+SPRING_DATASOURCE_DB=your_db
+SPRING_DATASOURCE_SCHEMA=your_schema
 ```
 
-3. Run the application locally
-- Make sure PostgreSQL is running, then execute: 
+3. Configure `JWT_SECRET`  
+To ensure secure authentication and token validation, configure the `JWT_SECRET` environment variable in the `.env.development` file. This secret key is used for **signing and verifying JWT tokens, ensuring the integrity and authenticity of user sessions**. Choose a strong, randomly generated secret string to prevent unauthorized access.
+```bash
+# jwt properties
+JWT_SECRET=<secret_string>
+```
+
+4. Run the application locally  
+Make sure PostgreSQL is running, then execute: 
 ```bash
 mvn spring-boot:run
 ```
 
-- The API will be available at http://localhost:8081/ 
-- You can test the API using:
+5. Now, application is available at:  
+```bash
+http://localhost:8081/ 
+```
+
+You can test the API using:
     - Postman (Desktop/Web version)
     - cURL
+
 ---
 
-## 🔗 API Endpoints
-The REST API provides a set of endpoints to manage Netflix shows, allowing clients to perform CRUD operations (Create, Read, Update, Delete). Each endpoint follows RESTful principles and accepts/returns JSON data. Authentication is handled using JWT Bearer tokens, ensuring secure access to protected resources. Below is a list of available endpoints along with sample requests.
+## 🌐 API Endpoints
+The REST API provides a set of endpoints to manage Netflix shows, allowing clients to perform CRUD operations (Create, Read, Update, Delete). Each endpoint follows RESTful principles and accepts/returns JSON data. Authentication is handled using JWT Bearer tokens, ensuring secure access to protected resources. Below is a list of available endpoints along with sample requests.  
 
 ### Authentication
 #### Login
-`POST` http://localhost:8081/api/v1/auth/login
+`POST` http://localhost:8081/api/v1/auth/login  
 
-Login API allows users to authenticate by providing valid credentials. Upon successful authentication, the server responds with an access token and a refresh token. The access token is used for making authorized requests, while the refresh token is used to obtain a new access token when the previous one expires.
-
+Login API allows users to authenticate by providing valid credentials. Upon successful authentication, the server responds with an access token and a refresh token. The access token is used for making authorized requests, while the refresh token is used to obtain a new access token when the previous one expires.  
 **Request Body:**
 ```json
 {
@@ -312,11 +316,10 @@ Login API allows users to authenticate by providing valid credentials. Upon succ
 ```
 
 
-#### Refresh Token API
-`POST` http://localhost:8081/api/v1/auth/refresh-token
+#### Refresh Token API  
+`POST` http://localhost:8081/api/v1/auth/refresh-token  
 
-Refresh Token API is used to renew an expired access token without requiring the user to log in again. Clients send a valid refresh token, and the server issues a new access token and a new refresh token.
-
+Refresh Token API is used to renew an expired access token without requiring the user to log in again. Clients send a valid refresh token, and the server issues a new access token and a new refresh token.  
 **Request Body:**
 ```json
 {
@@ -360,14 +363,13 @@ Refresh Token API is used to renew an expired access token without requiring the
 ```
 
 
-### Netflix Shows API
-Netflix Show API allows users to perform CRUD operations on Netflix Shows. Users can create, retrieve, update, and delete show records. Access to these endpoints requires authentication via JWT.
+### Netflix Shows API  
+Netflix Show API allows users to perform CRUD operations on Netflix Shows. Users can create, retrieve, update, and delete show records. Access to these endpoints requires authentication via JWT.  
 
-#### Create a Netflix Show
-`POST` http://localhost:8081/api/v1/netflix-shows
+#### Create a Netflix Show  
+`POST` http://localhost:8081/api/v1/netflix-shows  
 
-This endpoint allows users to create a new Netflix show by providing relevant details in the request body. Ensure that a valid JWT token is included in the Authorization header.
-
+This endpoint allows users to create a new Netflix show by providing relevant details in the request body. Ensure that a valid JWT token is included in the Authorization header.  
 **Request Body:**
 ```json
 {
@@ -418,11 +420,10 @@ This endpoint allows users to create a new Netflix show by providing relevant de
 }
 ```
 
-#### Get All Netflix Shows
-`GET` http://localhost:8081/api/v1/netflix-shows
+#### Get All Netflix Shows  
+`GET` http://localhost:8081/api/v1/netflix-shows  
 
-Retrieves a list of all Netflix shows stored in the database.
-
+Retrieves a list of all Netflix shows stored in the database.  
 **Successful Response:**
 ```json
 {
@@ -448,11 +449,10 @@ Retrieves a list of all Netflix shows stored in the database.
 }
 ```
 
-#### Get Netflix Show by ID
-`GET` http://localhost:8081/api/v1/netflix-shows/{id}
+#### Get Netflix Show by ID  
+`GET` http://localhost:8081/api/v1/netflix-shows/{id}  
 
-Fetches the details of a specific Netflix show using its unique ID.
-
+Fetches the details of a specific Netflix show using its unique ID.  
 **Successful Response:**
 ```json
 {
@@ -476,11 +476,10 @@ Fetches the details of a specific Netflix show using its unique ID.
 }
 ```
 
-#### Update a Netflix Show
-`PUT` http://localhost:8081/api/v1/netflix-shows/{id}
+#### Update a Netflix Show  
+`PUT` http://localhost:8081/api/v1/netflix-shows/{id}  
 
-Allows updating the details of an existing Netflix show.
-
+Allows updating the details of an existing Netflix show.  
 **Request Body:**
 ```json
 {
@@ -531,11 +530,10 @@ Allows updating the details of an existing Netflix show.
 }
 ```
 
-#### Delete a Netflix Show
-`DELETE` http://localhost:8081/api/v1/netflix-shows/{id}
+#### Delete a Netflix Show  
+`DELETE` http://localhost:8081/api/v1/netflix-shows/{id}  
 
-Deletes a specific Netflix show from the database.
-
+Deletes a specific Netflix show from the database.  
 **Successful Response:**
 ```json
 {
@@ -557,19 +555,20 @@ Deletes a specific Netflix show from the database.
 ```
 ---
 
-## 🗒️ Notes
-- **JWT Expiration**: The access token has a limited validity period. Clients should use the refresh token to obtain a new access token when expired.
-- **Authorization**: Every API request must include a valid JWT token in the Authorization header (Bearer <JWT Token>).
+## 📝 Notes & Future Enhancements  
+- **JWT Expiration** – The access token has a limited validity period. Clients should use the refresh token to obtain a new access token when expired.
+- **Authorization** – Every API request must include a valid JWT token in the Authorization header (`Bearer <JWT Token>`).
 - **Stateless or Stateful Authentication**: When implementing authentication with JWT, it's important to consider whether to use a stateless or stateful approach based on the application's needs.
-- **Data Validation**: Requests with missing or invalid fields will return a 400 Bad Request response.
+- **Data Validation** – Requests with missing or invalid fields will return a `400 Bad Request` response.
 - **Security Considerations**:
     - Never expose JWT tokens in frontend code or logs.
     - Use HTTPS to protect tokens in transit.
-    - Implement role-based access control (RBAC) to restrict API actions based on user roles, ensuring that only authorized users can perform specific operations. Assign different roles such as 'ADMIN' and 'USER' to enforce proper access levels.
-- **Database Schema**: Ensure all necessary tables (users, roles, netflix_shows) are created and populated correctly.
-- **Error Handling**: The API provides meaningful error messages with appropriate HTTP status codes (400, 401, 403, 404, 500).
+    - Implement `role-based access control (RBAC)` to restrict API actions based on user roles, ensuring that only authorized users can perform specific operations. Assign different roles such as 'ADMIN' and 'USER' to enforce proper access levels.
+- **Database Schema** – Ensure all necessary tables (`users, roles, netflix_shows`) are created and populated correctly.
+- **Error Handling** – The API provides meaningful error messages with appropriate HTTP status codes (`400, 401, 403, 404, 500`).
 
 ---
 
-## 📌 Reference
+## 🔗 Related Repositories
 - JWT Authentication with Kong GitHub Repository, check out [Spring Boot Department API with Kong JWT Authentication (DB-Backed Mode)](https://github.com/yoanesber/Spring-Boot-JWT-Auth-Kong).
+- Form-Based Authentication Repository, check out [Spring Web Application with JDBC Session](https://github.com/yoanesber/Spring-Boot-JDBC-Session).
