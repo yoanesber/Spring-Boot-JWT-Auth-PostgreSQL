@@ -1,14 +1,17 @@
 # Netflix Shows REST API with JWT Authentication
 
-## 📖 Overview
+## 📖 Overview  
+
 This project is a **REST API** for managing **Netflix Shows**, built using **Spring Boot**. It leverages **PostgreSQL** as the database, **Spring Data JPA** for data management, and **Spring Boot Starter Security** for authentication and authorization. The API is secured using **JWT (JSON Web Token)**, implemented with the open-source JJWT library.  
 
 A key aspect of this project is the implementation of **JJWT** to **create and verify JWTs** as an authentication mechanism for accessing NetflixShows resources. JWT is used as a Bearer token, meaning it is included in the Authorization header of HTTP requests to authenticate users. Compared to traditional session-based authentication, JWT provides a **stateless and scalable** approach, reducing the need for server-side session storage. Unlike API keys, JWTs offer **built-in expiration** and **can carry claims**, allowing for **more flexible authorization strategies**.
 
 ---
 
-## 🤖 Tech Stack
-The technology used in this project are:
+## 🤖 Tech Stack  
+
+The technology used in this project are:  
+
 - `Spring Boot Starter Web` – Building RESTful APIs or web applications
 - `Spring Security` – Provides authentication and authorization mechanisms, ensuring secure access to the application.
 - `JJWT (api, impl, jackson)` – Open-source library for creating and verifying JSON Web Tokens (JWTs) used for authentication.
@@ -17,8 +20,10 @@ The technology used in this project are:
 - `Lombok` – Reducing boilerplate code
 ---
 
-## 🏗️ Project Structure
-The project is organized into the following package structure:
+## 🏗️ Project Structure  
+
+The project is organized into the following package structure:  
+
 ```bash
 jwt-auth-postgresql/
 │── src/main/java/com/yoanesber/spring/security/jwt_auth_postgresql/
@@ -34,9 +39,11 @@ jwt-auth-postgresql/
 ```
 ---
 
-## ⚙ Environment Configuration
+## ⚙ Environment Configuration  
+
 Configuration values are stored in `.env.development` and referenced in `application.properties`.  
-Example `.env.development` file content:
+Example `.env.development` file content:  
+
 ```properties
 # Application properties
 APP_PORT=8081
@@ -79,7 +86,8 @@ PERMIT_ALL_REQUEST_URL=/api/v1/auth/**
 EXCLUDED_PATHS_FOR_AUTHENTICATION=/api/v1/auth/login,/api/v1/auth/refresh-token
 ```
 
-Example `application.properties` file content:
+Example `application.properties` file content:  
+
 ```properties
 # Application properties
 spring.application.name=jwt-auth-postgresql
@@ -122,8 +130,10 @@ excluded-paths-for-authentication=${EXCLUDED_PATHS_FOR_AUTHENTICATION}
 ```
 ---
 
-## 💾 Database Schema (DDL – PostgreSQL)
+## 💾 Database Schema (DDL – PostgreSQL)  
+
 The following is the database schema for the PostgreSQL database used in this project:  
+
 ```sql
 CREATE SCHEMA your_schema;
 
@@ -220,17 +230,22 @@ CREATE TABLE IF NOT EXISTS your_schema.netflix_shows (
 ```
 ---
 
-## 🛠️ Installation & Setup
+## 🛠️ Installation & Setup  
+
 A step by step series of examples that tell you how to get a development env running.  
-1. Ensure you have **Git installed on your Windows** machine, then clone the repository to your local environment:
+
+1. Ensure you have **Git installed on your Windows** machine, then clone the repository to your local environment:  
+
 ```bash
 git clone https://github.com/yoanesber/Spring-Boot-JWT-Auth-PostgreSQL.git
 cd Spring-Boot-JWT-Auth-PostgreSQL
 ```
 
 2. Set up PostgreSQL  
+
 - Run the provided DDL script to set up the database schema
-- Configure the connection in `.env.development` file:
+- Configure the connection in `.env.development` file:  
+
 ```properties
 # Database properties
 SPRING_DATASOURCE_PORT=5432
@@ -241,19 +256,24 @@ SPRING_DATASOURCE_SCHEMA=your_schema
 ```
 
 3. Configure `JWT_SECRET`  
-To ensure secure authentication and token validation, configure the `JWT_SECRET` environment variable in the `.env.development` file. This secret key is used for **signing and verifying JWT tokens, ensuring the integrity and authenticity of user sessions**. Choose a strong, randomly generated secret string to prevent unauthorized access.
+
+To ensure secure authentication and token validation, configure the `JWT_SECRET` environment variable in the `.env.development` file. This secret key is used for **signing and verifying JWT tokens, ensuring the integrity and authenticity of user sessions**. Choose a strong, randomly generated secret string to prevent unauthorized access.  
+
 ```bash
 # jwt properties
 JWT_SECRET=<secret_string>
 ```
 
 4. Run the application locally  
-Make sure PostgreSQL is running, then execute: 
+
+Make sure PostgreSQL is running, then execute:  
+
 ```bash
 mvn spring-boot:run
 ```
 
 5. Now, application is available at:  
+
 ```bash
 http://localhost:8081/ 
 ```
@@ -270,7 +290,9 @@ The REST API provides a set of endpoints to manage Netflix shows, allowing clien
 `POST` http://localhost:8081/api/v1/auth/login  
 
 Login API allows users to authenticate by providing valid credentials. Upon successful authentication, the server responds with an access token and a refresh token. The access token is used for making authorized requests, while the refresh token is used to obtain a new access token when the previous one expires.  
-**Request Body:**
+
+**Request Body:**  
+
 ```json
 {
     "username": "channel1",
@@ -278,7 +300,8 @@ Login API allows users to authenticate by providing valid credentials. Upon succ
 }
 ```
 
-**Successful Response:**
+**Successful Response:**  
+
 ```json
 {
     "statusCode": 200,
@@ -293,7 +316,8 @@ Login API allows users to authenticate by providing valid credentials. Upon succ
 }
 ```
 
-**Invalid Credentials Response:**
+**Invalid Credentials Response:**  
+
 ```json
 {
     "statusCode": 400,
@@ -303,29 +327,23 @@ Login API allows users to authenticate by providing valid credentials. Upon succ
 }
 ```
 
-**Invalid JWT token Response:**
-```json
-{
-    "statusCode": 401,
-    "timestamp": "2024-01-10T07:56:25.520985300Z",
-    "message": "Unauthorized request",
-    "data": "Invalid JWT token"
-}
-```
-
 
 #### Refresh Token API  
+
 `POST` http://localhost:8081/api/v1/auth/refresh-token  
 
 Refresh Token API is used to renew an expired access token without requiring the user to log in again. Clients send a valid refresh token, and the server issues a new access token and a new refresh token.  
-**Request Body:**
+
+**Request Body:**  
+
 ```json
 {
     "refreshToken": "<Refresh Token>"
 }
 ```
 
-**Successful Response:**
+**Successful Response:**  
+
 ```json
 {
     "statusCode": 200,
@@ -340,7 +358,8 @@ Refresh Token API is used to renew an expired access token without requiring the
 }
 ```
 
-**Invalid refresh token Response:**
+**Invalid refresh token Response:**  
+
 ```json
 {
     "statusCode": 400,
@@ -350,7 +369,8 @@ Refresh Token API is used to renew an expired access token without requiring the
 }
 ```
 
-**Expired refresh token Response:**
+**Expired refresh token Response:**  
+
 ```json
 {
     "statusCode": 401,
@@ -362,13 +382,17 @@ Refresh Token API is used to renew an expired access token without requiring the
 
 
 ### Netflix Shows API  
+
 Netflix Show API allows users to perform CRUD operations on Netflix Shows. Users can create, retrieve, update, and delete show records. Access to these endpoints requires authentication via JWT.  
 
 #### Create a Netflix Show  
+
 `POST` http://localhost:8081/api/v1/netflix-shows  
 
 This endpoint allows users to create a new Netflix show by providing relevant details in the request body. Ensure that a valid JWT token is included in the Authorization header.  
-**Request Body:**
+
+**Request Body:**  
+
 ```json
 {
     "showType": "MOVIE",
@@ -385,7 +409,8 @@ This endpoint allows users to create a new Netflix show by providing relevant de
 }
 ```
 
-**Successful Response:**
+**Successful Response:**  
+
 ```json
 {
     "statusCode": 201,
@@ -408,7 +433,8 @@ This endpoint allows users to create a new Netflix show by providing relevant de
 }
 ```
 
-**Invalid/expired JWT Token Response:**
+**Invalid/expired JWT Token Response:**  
+
 ```json
 {
     "statusCode": 401,
@@ -419,10 +445,13 @@ This endpoint allows users to create a new Netflix show by providing relevant de
 ```
 
 #### Get All Netflix Shows  
+
 `GET` http://localhost:8081/api/v1/netflix-shows  
 
 Retrieves a list of all Netflix shows stored in the database.  
-**Successful Response:**
+
+**Successful Response:**  
+
 ```json
 {
     "statusCode": 200,
@@ -448,10 +477,13 @@ Retrieves a list of all Netflix shows stored in the database.
 ```
 
 #### Get Netflix Show by ID  
+
 `GET` http://localhost:8081/api/v1/netflix-shows/{id}  
 
 Fetches the details of a specific Netflix show using its unique ID.  
-**Successful Response:**
+
+**Successful Response:**  
+
 ```json
 {
     "statusCode": 200,
@@ -475,10 +507,13 @@ Fetches the details of a specific Netflix show using its unique ID.
 ```
 
 #### Update a Netflix Show  
+
 `PUT` http://localhost:8081/api/v1/netflix-shows/{id}  
 
 Allows updating the details of an existing Netflix show.  
-**Request Body:**
+
+**Request Body:**  
+
 ```json
 {
     "showType": "MOVIE",
@@ -495,7 +530,8 @@ Allows updating the details of an existing Netflix show.
 }
 ```
 
-**Successful Response:**
+**Successful Response:**  
+
 ```json
 {
     "statusCode": 200,
@@ -518,7 +554,8 @@ Allows updating the details of an existing Netflix show.
 }
 ```
 
-**Not found Response:**
+**Not found Response:**  
+
 ```json
 {
     "statusCode": 404,
@@ -529,10 +566,13 @@ Allows updating the details of an existing Netflix show.
 ```
 
 #### Delete a Netflix Show  
+
 `DELETE` http://localhost:8081/api/v1/netflix-shows/{id}  
 
 Deletes a specific Netflix show from the database.  
-**Successful Response:**
+
+**Successful Response:**  
+
 ```json
 {
     "statusCode": 200,
@@ -542,7 +582,8 @@ Deletes a specific Netflix show from the database.
 }
 ```
 
-**Not found Response:**
+**Not found Response:**  
+
 ```json
 {
     "statusCode": 404,
@@ -554,6 +595,7 @@ Deletes a specific Netflix show from the database.
 ---
 
 ## 📝 Notes & Future Enhancements  
+
 - **JWT Expiration** – The access token has a limited validity period. Clients should use the refresh token to obtain a new access token when expired.
 - **Authorization** – Every API request must include a valid JWT token in the Authorization header (`Bearer <JWT Token>`).
 - **Stateless or Stateful Authentication**: When implementing authentication with JWT, it's important to consider whether to use a stateless or stateful approach based on the application's needs.
@@ -567,6 +609,7 @@ Deletes a specific Netflix show from the database.
 
 ---
 
-## 🔗 Related Repositories
-- JWT Authentication with Kong GitHub Repository, check out [Spring Boot Department API with Kong JWT Authentication (DB-Backed Mode)](https://github.com/yoanesber/Spring-Boot-JWT-Auth-Kong).
+## 🔗 Related Repositories  
+
+- JWT Authentication with Kong GitHub Repository, check out [Spring Boot Department API with Kong JWT Authentication (DB-Backed Mode)](https://github.com/yoanesber/Spring-Boot-JWT-Auth-Kong).  
 - Form-Based Authentication Repository, check out [Spring Web Application with JDBC Session](https://github.com/yoanesber/Spring-Boot-JDBC-Session).
