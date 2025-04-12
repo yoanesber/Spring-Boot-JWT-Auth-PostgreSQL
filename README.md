@@ -6,7 +6,10 @@ This project is a **REST API** for managing **Netflix Shows**, built using **Spr
 
 A key aspect of this project is the implementation of **JJWT** to **create and verify JWTs** as an authentication mechanism for accessing NetflixShows resources. JWT is used as a Bearer token, meaning it is included in the Authorization header of HTTP requests to authenticate users. Compared to traditional session-based authentication, JWT provides a **stateless and scalable** approach, reducing the need for server-side session storage. Unlike API keys, JWTs offer **built-in expiration** and **can carry claims**, allowing for **more flexible authorization strategies**.  
 
-This application functions both as a **resource server** and a **custom authorization server**, as it is responsible for **issuing (access and refresh tokens) and validating JWTs** for authenticated users. It implements **custom JWT-based authentication**, meaning it does not follow the full OAuth2 protocol. As a result, the login request only requires a username and password—**the `grant_type` parameter is not needed**—because the token issuance (access and refresh tokens) and token refresh are handled via **separate, dedicated endpoints**.
+This application functions both as a **resource server** and a **custom authorization server**, as it is responsible for **issuing (access and refresh tokens) and validating JWTs** internally for authenticated users. It implements **custom JWT-based authentication**, meaning it does not follow the full OAuth2 protocol. As a result, the login request only requires a username and password—**the `grant_type` parameter is not needed**—because the token issuance (access and refresh tokens) and token refresh are handled via **separate, dedicated endpoints:**  
+
+- `/login` — Handles user authentication. The user provides a username and password, which are authenticated using `UsernamePasswordAuthenticationToken`. Upon successful authentication, the system sets the authentication object in the `SecurityContextHolder`, generates a JWT access token and a refresh token, and updates the user's last login time.  
+- `/refresh-token` — Manages refresh tokens using a rotating strategy. Refresh tokens are stored in the `refresh_token` table (fields: `token`, `expiry_date`, and `user_id`). When a request is made to this endpoint, the system verifies the token's existence and expiration, then generates a new JWT access token and a new refresh token, replacing the old one.  
 
 ---
 
@@ -229,6 +232,24 @@ CREATE TABLE IF NOT EXISTS your_schema.netflix_shows (
 	CONSTRAINT netflix_shows_pkey PRIMARY KEY (id),
 	CONSTRAINT netflix_shows_type_check CHECK (((type)::text = ANY (ARRAY[('MOVIE'::character varying)::text, ('TV_SHOW'::character varying)::text])))
 );
+
+
+-- create table refresh_token
+CREATE TABLE IF NOT EXISTS your_schema.refresh_token
+(
+    token character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    expiry_date timestamp with time zone NOT NULL,
+    user_id bigint NOT NULL,
+    CONSTRAINT refresh_token_pkey PRIMARY KEY (token, user_id),
+    CONSTRAINT refresh_token_unique_token UNIQUE (token),
+    CONSTRAINT refresh_token_unique_user_id UNIQUE (user_id),
+    CONSTRAINT refresh_token_fkey1 FOREIGN KEY (user_id)
+        REFERENCES your_schema.users (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+
 ```
 ---
 
