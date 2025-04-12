@@ -29,9 +29,9 @@ The project is organized into the following package structure:
 ```bash
 jwt-auth-postgresql/
 │── src/main/java/com/yoanesber/spring/security/jwt_auth_postgresql/
-│   ├── 📂config/                # Holds configuration classes, including security, CORS, and application properties.
+│   ├── 📂config/                # Contains configuration classes that set up core infrastructure such as JWT security and object serialization.
 │   │   ├── 📂serializer/        # Contains custom serializers and deserializers for JSON processing.
-│   ├── 📂controller/            # Contains REST controllers that handle HTTP requests and return responses.
+│   ├── 📂controller/            # Exposes the REST API endpoints for clients to interact with `AuthController` and `NetflixShowsController`
 │   ├── 📂dto/                   # Data Transfer Objects (DTOs) for request/response payloads.
 │   ├── 📂entity/                # Contains JPA entity classes representing database tables.
 │   ├── 📂handler/               # Manages global exception handling and API error responses.
