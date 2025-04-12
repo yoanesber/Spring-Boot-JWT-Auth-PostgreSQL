@@ -12,6 +12,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * UserRole is an entity class that represents the relationship between a user and a role in the database.
+ * The @Data annotation from Lombok generates getters, setters, equals, hashCode, and toString methods.
+ * The @NoArgsConstructor and @AllArgsConstructor annotations are used to create constructors for the class.
+ * The @Entity annotation indicates that this class is a JPA entity.
+ * The @Table annotation specifies the name of the table in the database.
+ */
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

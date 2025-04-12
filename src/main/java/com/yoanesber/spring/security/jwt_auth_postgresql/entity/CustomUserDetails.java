@@ -7,6 +7,13 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+/**
+ * CustomUserDetails is a class that implements the UserDetails interface from Spring Security.
+ * It represents the authenticated user and contains user-related information such as username, password, roles, etc.
+ * This class is used to provide user details to the Spring Security framework during authentication and authorization processes.
+ * The class wraps around the User entity and provides additional methods to access user information.
+ */
+
 public class CustomUserDetails implements UserDetails {
     private User user;
 

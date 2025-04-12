@@ -16,6 +16,12 @@ import com.yoanesber.spring.security.jwt_auth_postgresql.dto.NetflixShowsDTO;
 import com.yoanesber.spring.security.jwt_auth_postgresql.entity.CustomHttpResponse;
 import com.yoanesber.spring.security.jwt_auth_postgresql.service.NetflixShowsService;
 
+/**
+ * NetflixShowsController is a REST controller that handles HTTP requests related to Netflix shows.
+ * It provides endpoints for creating, retrieving, updating, and deleting Netflix shows.
+ * The controller uses the NetflixShowsService to perform the actual operations.
+ */
+
 @RestController
 @RequestMapping("/api/v1/netflix-shows")
 public class NetflixShowsController {

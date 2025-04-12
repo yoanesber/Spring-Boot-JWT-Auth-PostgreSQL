@@ -16,6 +16,12 @@ import org.springframework.util.Assert;
 
 import com.yoanesber.spring.security.jwt_auth_postgresql.service.JwtService;
 
+/**
+ * JwtServiceImpl is a service class that implements the JwtService interface.
+ * It provides methods to generate, validate, and parse JWT tokens.
+ * The @Service annotation indicates that this class is a Spring service component.
+ */
+
 @Service
 public class JwtServiceImpl implements JwtService {
 

@@ -9,6 +9,12 @@ import com.yoanesber.spring.security.jwt_auth_postgresql.entity.User;
 import com.yoanesber.spring.security.jwt_auth_postgresql.repository.UserRepository;
 import com.yoanesber.spring.security.jwt_auth_postgresql.service.UserService;
 
+/**
+ * UserServiceImpl is a service class that implements the UserService interface.
+ * It provides methods to manage user-related operations, including updating the last login time.
+ * The @Service annotation indicates that this class is a Spring service component.
+ */
+
 @Service
 public class UserServiceImpl implements UserService {
 

@@ -12,6 +12,12 @@ import com.yoanesber.spring.security.jwt_auth_postgresql.entity.NetflixShows;
 import com.yoanesber.spring.security.jwt_auth_postgresql.service.NetflixShowsService;
 import com.yoanesber.spring.security.jwt_auth_postgresql.repository.NetflixShowsRepository;
 
+/**
+ * NetflixShowsServiceImpl is a service class that implements the NetflixShowsService interface.
+ * It provides methods to manage Netflix shows in the database.
+ * The @Service annotation indicates that this class is a Spring service component.
+ */
+
 @Service
 public class NetflixShowsServiceImpl implements NetflixShowsService {
     

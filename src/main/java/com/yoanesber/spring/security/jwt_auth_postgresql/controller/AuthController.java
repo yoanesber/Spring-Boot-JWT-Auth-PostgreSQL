@@ -28,6 +28,13 @@ import com.yoanesber.spring.security.jwt_auth_postgresql.service.JwtService;
 import com.yoanesber.spring.security.jwt_auth_postgresql.service.RefreshTokenService;
 import com.yoanesber.spring.security.jwt_auth_postgresql.service.UserService;
 
+/**
+ * AuthController is a REST controller that handles authentication and authorization requests.
+ * It provides endpoints for user login and token refresh.
+ * The controller uses JWT (JSON Web Token) for authentication and authorization.
+ * It also uses refresh tokens to obtain new access tokens without requiring the user to log in again.
+ */
+
 @RestController
 @RequestMapping("/api/v1/auth")
 public class AuthController {

@@ -9,6 +9,12 @@ import org.springframework.stereotype.Repository;
 import com.yoanesber.spring.security.jwt_auth_postgresql.entity.RefreshToken;
 import com.yoanesber.spring.security.jwt_auth_postgresql.entity.RefreshTokenId;
 
+/**
+ * RefreshTokenRepository is a Spring Data JPA repository interface for the RefreshToken entity.
+ * It extends JpaRepository, which provides CRUD operations and pagination support.
+ * The @Repository annotation indicates that this interface is a Spring Data repository.
+ */
+
 @Repository
 public interface RefreshTokenRepository extends JpaRepository<RefreshToken, RefreshTokenId> {
     // Find a refresh token by its token

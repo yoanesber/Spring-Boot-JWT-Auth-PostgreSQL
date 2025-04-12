@@ -10,6 +10,14 @@ import lombok.Setter;
 
 import com.yoanesber.spring.security.jwt_auth_postgresql.config.serializer.InstantSerializer;
 
+/**
+ * CustomHttpResponse is an entity class that represents a custom HTTP response structure.
+ * It is used to standardize the response format for API endpoints in the application.
+ * This class is used to transfer data between the server and client in a consistent format.
+ * The @Data annotation from Lombok generates getters, setters, equals, hashCode, and toString methods.
+ * The @NoArgsConstructor and @AllArgsConstructor annotations are used to create constructors for the class.
+ */
+
 @Data
 @Getter
 @Setter

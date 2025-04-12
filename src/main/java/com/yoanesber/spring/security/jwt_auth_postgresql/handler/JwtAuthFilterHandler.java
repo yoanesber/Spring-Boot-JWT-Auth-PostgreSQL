@@ -21,6 +21,13 @@ import com.yoanesber.spring.security.jwt_auth_postgresql.entity.CustomUserDetail
 import com.yoanesber.spring.security.jwt_auth_postgresql.service.CustomUserDetailsService;
 import com.yoanesber.spring.security.jwt_auth_postgresql.service.JwtService;
 
+/**
+ * JwtAuthFilterHandler is a filter that handles JWT authentication for incoming requests.
+ * It checks if the JWT token is present in the request header or cookies, validates it,
+ * and sets the user in the security context if the token is valid.
+ * If the token is invalid or missing, it sends an error response to the client.
+ */
+
 @Component
 public class JwtAuthFilterHandler extends OncePerRequestFilter {
     private final JwtService jwtService;

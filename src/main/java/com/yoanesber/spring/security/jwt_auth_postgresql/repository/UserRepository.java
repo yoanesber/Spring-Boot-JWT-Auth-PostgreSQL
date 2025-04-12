@@ -6,6 +6,12 @@ import org.springframework.stereotype.Repository;
 
 import com.yoanesber.spring.security.jwt_auth_postgresql.entity.User;
 
+/**
+ * UserRepository is a Spring Data JPA repository interface for the User entity.
+ * It extends JpaRepository, which provides CRUD operations and pagination support.
+ * The @Repository annotation indicates that this interface is a Spring Data repository.
+ */
+
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     // Find a user by its username

@@ -24,6 +24,12 @@ import com.yoanesber.spring.security.jwt_auth_postgresql.handler.JwtAuthFilterHa
 import com.yoanesber.spring.security.jwt_auth_postgresql.service.CustomUserDetailsService;
 import com.yoanesber.spring.security.jwt_auth_postgresql.service.JwtService;
 
+/*
+ * SecurityConfig is a configuration class for Spring Security.
+ * It configures authentication, authorization, CORS, and session management for the application.
+ * It also sets up a custom JWT authentication filter and exception handling.
+ */
+
 @Configuration
 @EnableMethodSecurity
 (securedEnabled = true, // securedEnabled = true to enable @Secured annotation

@@ -18,6 +18,13 @@ import com.yoanesber.spring.security.jwt_auth_postgresql.repository.RefreshToken
 import com.yoanesber.spring.security.jwt_auth_postgresql.repository.UserRepository;
 import com.yoanesber.spring.security.jwt_auth_postgresql.service.RefreshTokenService;
 
+/**
+ * RefreshTokenServiceImpl is a service class that implements the RefreshTokenService interface.
+ * It provides methods to manage refresh tokens, including creating, finding, verifying expiration,
+ * and deleting refresh tokens.
+ * The @Service annotation indicates that this class is a Spring service component.
+ */
+
 @Service
 public class RefreshTokenServiceImpl implements RefreshTokenService {
     

@@ -13,6 +13,12 @@ import org.springframework.stereotype.Component;
 
 import com.yoanesber.spring.security.jwt_auth_postgresql.entity.CustomHttpResponse;
 
+/**
+ * CustomAccessDeniedHandler is a class that implements the AccessDeniedHandler interface.
+ * It handles access denied exceptions in a custom way by sending a JSON response with the error details.
+ * This class is used to provide a consistent error response format for access denied errors in the application.
+ */
+
 @Component
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 

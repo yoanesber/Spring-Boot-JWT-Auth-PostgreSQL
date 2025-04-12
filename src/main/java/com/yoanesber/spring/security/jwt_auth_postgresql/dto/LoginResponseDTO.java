@@ -8,6 +8,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * LoginResponseDTO is a Data Transfer Object (DTO) that represents the login response payload.
+ * This class is used to transfer data between the server and client after a successful login.
+ * The @Data annotation from Lombok generates getters, setters, equals, hashCode, and toString methods.
+ * The @NoArgsConstructor and @AllArgsConstructor annotations are used to create constructors for the class.
+ * 
+ * The expirationDate field is formatted using the @JsonFormat annotation to ensure that it is serialized and deserialized correctly.
+ * The pattern "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" is used to represent the date in ISO 8601 format.
+ */
+
 @Data
 @Getter
 @Setter

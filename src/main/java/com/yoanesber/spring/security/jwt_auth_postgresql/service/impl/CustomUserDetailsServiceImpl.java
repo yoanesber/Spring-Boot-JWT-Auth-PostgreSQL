@@ -12,6 +12,12 @@ import com.yoanesber.spring.security.jwt_auth_postgresql.entity.User;
 import com.yoanesber.spring.security.jwt_auth_postgresql.repository.UserRepository;
 import com.yoanesber.spring.security.jwt_auth_postgresql.service.CustomUserDetailsService;
 
+/**
+ * CustomUserDetailsServiceImpl is a service class that implements the CustomUserDetailsService interface.
+ * It provides methods to load user details from the database using the UserRepository.
+ * The @Service annotation indicates that this class is a Spring service component.
+ */
+
 @Service
 public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
 

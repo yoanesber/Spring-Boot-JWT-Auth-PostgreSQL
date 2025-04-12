@@ -8,6 +8,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * RefreshTokenId is an embedded ID class that represents the composite key for the RefreshToken entity.
+ * The @Data annotation from Lombok generates getters, setters, equals, hashCode, and toString methods.
+ * The @NoArgsConstructor and @AllArgsConstructor annotations are used to create constructors for the class.
+ * The @Embeddable annotation indicates that this class can be embedded in another entity.
+ */
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -14,6 +14,12 @@ import org.springframework.stereotype.Component;
 
 import com.yoanesber.spring.security.jwt_auth_postgresql.entity.CustomHttpResponse;
 
+/**
+ * CustomAuthExceptionHandler is a class that implements the AuthenticationEntryPoint interface.
+ * It handles authentication exceptions in a custom way by sending a JSON response with the error details.
+ * This class is used to provide a consistent error response format for authentication errors in the application.
+ */
+
 @Component
 public class CustomAuthExceptionHandler implements AuthenticationEntryPoint {
 

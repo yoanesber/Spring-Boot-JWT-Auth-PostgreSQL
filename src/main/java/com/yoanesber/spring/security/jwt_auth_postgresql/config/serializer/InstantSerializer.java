@@ -7,6 +7,12 @@ import java.io.IOException;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * InstantSerializer is a custom serializer for the Instant class.
+ * It converts an Instant object to a string in ISO_INSTANT format.
+ * This is useful for serializing Instant objects in JSON format.
+ */
+
 public class InstantSerializer extends JsonSerializer<Instant> {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_INSTANT;
 

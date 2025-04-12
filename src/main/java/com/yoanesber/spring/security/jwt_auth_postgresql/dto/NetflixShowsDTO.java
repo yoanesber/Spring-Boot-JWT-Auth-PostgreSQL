@@ -9,6 +9,14 @@ import lombok.Setter;
 
 import com.yoanesber.spring.security.jwt_auth_postgresql.entity.NetflixShows;
 
+/**
+ * NetflixShowsDTO is a Data Transfer Object (DTO) that represents the Netflix shows data.
+ * releaseYear, rating, durationInMinute, listedIn, and description.
+ * This class is used to transfer data between the server and client.
+ * The @Data annotation from Lombok generates getters, setters, equals, hashCode, and toString methods.
+ * The @NoArgsConstructor and @AllArgsConstructor annotations are used to create constructors for the class.
+ */
+
 @Data
 @Getter
 @Setter
