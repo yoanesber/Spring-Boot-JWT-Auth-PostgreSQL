@@ -11,6 +11,8 @@ This application functions both as a **resource server** and a **custom authoriz
 - `/login` — Handles user authentication. The user provides a username and password, which are authenticated using `UsernamePasswordAuthenticationToken`. Upon successful authentication, the system sets the authentication object in the `SecurityContextHolder`, generates a JWT access token and a refresh token, and updates the user's last login time.  
 - `/refresh-token` — Manages refresh tokens using a rotating strategy. Refresh tokens are stored in the `refresh_token` table (fields: `token`, `expiry_date`, and `user_id`). When a request is made to this endpoint, the system verifies the token's existence and expiration, then generates a new JWT access token and a new refresh token, replacing the old one.  
 
+By keeping authentication and token renewal separate, the design promotes clarity, maintainability, and security, all while maintaining full control over the authentication lifecycle.  
+
 ---
 
 ## 🤖 Tech Stack  
