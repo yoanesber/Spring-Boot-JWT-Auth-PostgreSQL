@@ -7,6 +7,7 @@ This project is a **REST API** for managing **Netflix Shows**, built using **Spr
 A key aspect of this project is the implementation of **JJWT** to **create and verify JWTs** as an authentication mechanism for accessing NetflixShows resources. JWT is used as a Bearer token, meaning it is included in the Authorization header of HTTP requests to authenticate users. Compared to traditional session-based authentication, JWT provides a **stateless and scalable** approach, reducing the need for server-side session storage. Unlike API keys, JWTs offer **built-in expiration** and **can carry claims**, allowing for **more flexible authorization strategies**.  
 
 This application functions both as a **resource server** and a **custom authorization server**, as it is responsible for **issuing (access and refresh tokens) and validating JWTs** for authenticated users. It implements **custom JWT-based authentication**, meaning it does not follow the full OAuth2 protocol. As a result, the login request only requires a username and password—**the `grant_type` parameter is not needed**—because the token issuance (access and refresh tokens) and token refresh are handled via **separate, dedicated endpoints**.
+
 ---
 
 ## 🤖 Tech Stack  
