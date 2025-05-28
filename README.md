@@ -58,41 +58,33 @@ The project follows a modular architecture to ensure **separation of concerns**,
 
 ```bash
 📂jwt-auth-postgresql/
-├── 📂src/
-│   ├── 📂main/
-│   │   ├── 📂docker/
-│   │   │   ├── 📂app/                     # Dockerfile for Spring Boot application (runtime container)
-│   │   │   │   └── Dockerfile             # Uses base image, copies JAR/dependencies, defines ENTRYPOINT
-│   │   │   └── 📂postgres/                # Custom PostgreSQL Docker image (optional)
-│   │   │       ├── Dockerfile             # Extends from postgres:17, useful for init customization
-│   │   │       └── init.sql               # SQL script to create database, user, and grant permissions
-│   │   ├── 📂java/
-│   │   │   ├── 📂config/                  # Spring configuration classes (e.g., security, JWT)
-│   │   │   │   └── 📂serializer/          # Custom Jackson serializers/deserializers (e.g., for `Instant`)
-│   │   │   ├── 📂controller/              # REST API endpoints (e.g., AuthController, NetflixShowsController)
-│   │   │   ├── 📂dto/                     # Data Transfer Objects for requests/responses
-│   │   │   ├── 📂entity/                  # JPA entity classes mapped to database tables
-│   │   │   ├── 📂handler/                 # Global exception handling and custom error responses
-│   │   │   ├── 📂mapper/                  # MapStruct or manual mappers between DTO and entity
-│   │   │   ├── 📂repository/              # Spring Data JPA interfaces for database access
-│   │   │   ├── 📂service/                 # Business logic layer
-│   │   │   │   └── 📂impl/                # Service implementation classes
-│   │   │   └── 📂util/                    # Utility/helper classes (e.g., JWT helpers, response builder)
-│   │   └── 📂resources/
-│   │       ├── application.properties     # Application configuration (DB, JWT, profiles, etc.)
-│   │       ├── generate-jwt-keys.sh       # Script to generate RSA key pairs for JWT
-│   │       ├── import.sql                 # SQL file for seeding database on startup
-│   │       ├── privateKey.pem             # RSA private key for signing JWTs
-│   │       └── publicKey.pem              # RSA public key for verifying JWTs
-│   └── 📂test/java/                       # Unit and integration test classes
-├── 📂target/                              # Maven build output (ignored in version control)
-├── .dockerignore                          # Files/directories to exclude from Docker build context
-├── .gitignore                             # Files/directories to exclude from Git tracking
-├── Makefile                               # Task automation (build/run app, setup DB, etc.)
-├── mvnw                                   # Maven wrapper script for Unix-based systems
-├── mvnw.cmd                               # Maven wrapper script for Windows
-├── pom.xml                                # Maven project configuration (dependencies, plugins)
-└── README.md                              # Project documentation and usage guide
+└── 📂src/
+    └── 📂main/
+        ├── 📂docker/
+        │   ├── 📂app/                     # Dockerfile for Spring Boot application (runtime container)
+        │   │   └── Dockerfile             # Uses base image, copies JAR/dependencies, defines ENTRYPOINT
+        │   └── 📂postgres/                # Custom PostgreSQL Docker image (optional)
+        │       ├── Dockerfile             # Extends from postgres:17, useful for init customization
+        │       └── init.sql               # SQL script to create database, user, and grant permissions
+        ├── 📂java/
+        │   ├── 📂config/                  # Spring configuration classes (e.g., security, serializer)
+        │   │   ├── 📂security/            # Security-related configuration (filters, providers, etc.)
+        │   │   └── 📂serializer/          # Custom Jackson serializers/deserializers (e.g., for `Instant`)
+        │   ├── 📂controller/              # REST API endpoints (e.g., AuthController, NetflixShowsController)
+        │   ├── 📂dto/                     # Data Transfer Objects for requests/responses
+        │   ├── 📂entity/                  # JPA entity classes mapped to database tables
+        │   ├── 📂handler/                 # Global exception handling and custom error responses
+        │   ├── 📂mapper/                  # MapStruct or manual mappers between DTO and entity
+        │   ├── 📂repository/              # Spring Data JPA interfaces for database access
+        │   ├── 📂service/                 # Business logic layer
+        │   │   └── 📂impl/                # Service implementation classes
+        │   └── 📂util/                    # Utility/helper classes (e.g., JWT helpers, response builder, security util)
+        └── 📂resources/
+            ├── application.properties     # Application configuration (DB, JWT, profiles, etc.)
+            ├── generate-jwt-keys.sh       # Script to generate RSA key pairs for JWT
+            ├── import.sql                 # SQL file for seeding database on startup
+            ├── privateKey.pem             # RSA private key for signing JWTs
+            └── publicKey.pem              # RSA public key for verifying JWTs
 ```
 
 This clean separation allows the application to **scale well**, supports **test-driven development**, and adheres to best practices in **enterprise application design**.  
