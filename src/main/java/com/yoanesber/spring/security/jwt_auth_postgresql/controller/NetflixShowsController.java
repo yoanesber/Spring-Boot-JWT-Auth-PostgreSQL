@@ -56,7 +56,7 @@ public class NetflixShowsController {
 
         try {
             // Create Netflik show & Return the response
-            return ResponseUtil.buildOkResponse(request, 
+            return ResponseUtil.buildCreatedResponse(request, 
                 RECORD_CREATED_SUCCESSFULLY,
                 netflixShowsService.createNetflixShows(netflixShowsRequest));
         } catch (Exception e) {
