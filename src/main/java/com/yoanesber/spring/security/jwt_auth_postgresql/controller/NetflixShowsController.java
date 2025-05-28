@@ -48,7 +48,6 @@ public class NetflixShowsController {
         if (netflixShowsRequest == null || 
             netflixShowsRequest.getTitle() == null || 
             netflixShowsRequest.getTitle().isEmpty()) {
-            // Return a bad request response if the request body is invalid
             return ResponseUtil.buildBadRequestResponse(request, 
                 INVALID_REQUEST,
                 "NetflixShowsRequest must not be null or empty", 
@@ -61,7 +60,6 @@ public class NetflixShowsController {
                 RECORD_CREATED_SUCCESSFULLY,
                 netflixShowsService.createNetflixShows(netflixShowsRequest));
         } catch (Exception e) {
-            // Return an internal server error response if an exception occurs
             return ResponseUtil.buildInternalServerErrorResponse(request, 
                 INTERNAL_SERVER_ERROR,
                 "An error occurred while creating NetflixShows: " + e.getMessage(), 
@@ -77,19 +75,16 @@ public class NetflixShowsController {
 
             // Check if the list is empty
             if (netflixShows == null || netflixShows.isEmpty()) {
-                // Return a not found response if no NetflixShows are found
                 return ResponseUtil.buildNotFoundResponse(request, 
                     RECORD_NOT_FOUND, 
                     "No NetflixShows found in the database", 
                     null);
             }
 
-            // Return the response with the list of NetflixShows
             return ResponseUtil.buildOkResponse(request, 
                 RECORD_RETRIEVED_SUCCESSFULLY,
                 netflixShows);
         } catch (Exception e) {
-            // Return an internal server error response if an exception occurs
             return ResponseUtil.buildInternalServerErrorResponse(request, 
                 INTERNAL_SERVER_ERROR, 
                 "An error occurred while retrieving NetflixShows: " + e.getMessage(), 
@@ -102,7 +97,6 @@ public class NetflixShowsController {
         HttpServletRequest request) {
         // Validate the ID
         if (id == null) {
-            // Return a bad request response if the ID is null
             return ResponseUtil.buildBadRequestResponse(request, 
                 INVALID_REQUEST,
                 "ID must not be null", 
@@ -115,19 +109,16 @@ public class NetflixShowsController {
 
             // Check if the NetflixShows is null
             if (netflixShows == null) {
-                // Return a not found response if the NetflixShows is not found
                 return ResponseUtil.buildNotFoundResponse(request, 
                     RECORD_NOT_FOUND, 
                     "NetflixShows not found with ID: " + id, 
                     null);
             }
 
-            // Return ok response with the NetflixShows
             return ResponseUtil.buildOkResponse(request, 
                 RECORD_RETRIEVED_SUCCESSFULLY,
                 netflixShows);
         } catch (Exception e) {
-            // Return an internal server error response if an exception occurs
             return ResponseUtil.buildInternalServerErrorResponse(request, 
                 INTERNAL_SERVER_ERROR, 
                 "An error occurred while retrieving NetflixShows: " + e.getMessage(), 
@@ -140,7 +131,6 @@ public class NetflixShowsController {
         @RequestBody NetflixShowsDTO netflixShowsRequest, HttpServletRequest request) {
         // Validate the ID
         if (id == null) {
-            // Return a bad request response if the ID is null
             return ResponseUtil.buildBadRequestResponse(request, 
                 INVALID_REQUEST,
                 "ID must not be null", 
@@ -151,7 +141,6 @@ public class NetflixShowsController {
         if (netflixShowsRequest == null ||
             netflixShowsRequest.getTitle() == null ||
             netflixShowsRequest.getTitle().isEmpty()) {
-            // Return a bad request response if the request body is invalid
             return ResponseUtil.buildBadRequestResponse(request, 
                 INVALID_REQUEST,
                 "NetflixShowsRequest must not be null or empty", 
@@ -165,7 +154,6 @@ public class NetflixShowsController {
 
             // Check if the NetflixShows is null
             if (updatedNetflixShows == null) {
-                // Return a not found response if the NetflixShows is not found
                 return ResponseUtil.buildNotFoundResponse(request, 
                     RECORD_NOT_FOUND, 
                     "NetflixShows not found with ID: " + id, 
@@ -177,7 +165,6 @@ public class NetflixShowsController {
                 RECORD_UPDATED_SUCCESSFULLY,
                 updatedNetflixShows);
         } catch (Exception e) {
-            // Return an internal server error response if an exception occurs
             return ResponseUtil.buildInternalServerErrorResponse(request, 
                 INTERNAL_SERVER_ERROR, 
                 "An error occurred while updating NetflixShows: " + e.getMessage(), 
@@ -190,7 +177,6 @@ public class NetflixShowsController {
         HttpServletRequest request) {
         // Validate the ID
         if (id == null) {
-            // Return a bad request response if the ID is null
             return ResponseUtil.buildBadRequestResponse(request, 
                 INVALID_REQUEST,
                 "ID must not be null", 
@@ -200,19 +186,16 @@ public class NetflixShowsController {
         try {
             // Delete the NetflixShows
             if (!netflixShowsService.deleteNetflixShows(id)) {
-                // Return a not found response if the NetflixShows is not found
                 return ResponseUtil.buildNotFoundResponse(request, 
                     RECORD_NOT_FOUND, 
                     "NetflixShows not found with ID: " + id, 
                     null);
             }
 
-            // Return ok response if the NetflixShows is deleted successfully
             return ResponseUtil.buildOkResponse(request, 
                 RECORD_DELETED_SUCCESSFULLY,
                 null);
         } catch (Exception e) {
-            // Return an internal server error response if an exception occurs
             return ResponseUtil.buildInternalServerErrorResponse(request, 
                 INTERNAL_SERVER_ERROR, 
                 "An error occurred while deleting NetflixShows: " + e.getMessage(), 
