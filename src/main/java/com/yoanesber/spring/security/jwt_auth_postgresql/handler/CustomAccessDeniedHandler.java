@@ -1,17 +1,15 @@
 package com.yoanesber.spring.security.jwt_auth_postgresql.handler;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
-import com.yoanesber.spring.security.jwt_auth_postgresql.entity.CustomHttpResponse;
+import com.yoanesber.spring.security.jwt_auth_postgresql.util.ResponseUtil;
 
 /**
  * CustomAccessDeniedHandler is a class that implements the AccessDeniedHandler interface.
@@ -28,21 +26,10 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
         HttpServletResponse response, 
         AccessDeniedException ex) throws IOException, ServletException {
 
-        // Get the error status code and message
-        Integer statusCode = HttpStatus.FORBIDDEN.value();
-        String message = ex.getMessage();
-
-        // Set the response content type and status
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.setStatus(statusCode);
-        response.setCharacterEncoding("UTF-8");
-
-        // Write the response as JSON
-        final ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(response.getOutputStream(), new CustomHttpResponse(
-            statusCode,
-            message,
-            null
-        ));
+        // Build the error response using ResponseUtil
+        ResponseUtil.buildResponse(request, response, HttpStatus.FORBIDDEN, 
+            "Access Denied", 
+            "You do not have permission to access this resource.", 
+            null);
     }
 }

@@ -1,6 +1,5 @@
 package com.yoanesber.spring.security.jwt_auth_postgresql.handler;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,7 +11,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
-import com.yoanesber.spring.security.jwt_auth_postgresql.entity.CustomHttpResponse;
+import com.yoanesber.spring.security.jwt_auth_postgresql.util.ResponseUtil;
 
 /**
  * CustomAuthExceptionHandler is a class that implements the AuthenticationEntryPoint interface.
@@ -28,6 +27,15 @@ public class CustomAuthExceptionHandler implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, 
         HttpServletResponse response, 
         AuthenticationException authException) throws IOException, ServletException {
+
+        // Check if the request method is POST and the Content-Type is not application/json
+        // If the Content-Type is not application/json, send an error response
+        String contentType = request.getContentType();
+        if (request.getMethod().equals("POST") && (contentType == null || !contentType.equals(MediaType.APPLICATION_JSON_VALUE))) {
+            ResponseUtil.buildResponse(request, response, HttpStatus.UNSUPPORTED_MEDIA_TYPE, 
+                "Unsupported Media Type", "Content-Type must be application/json", null);
+            return;
+        }
 
         // Get the error status code and message
         Integer statusCode = (Integer) request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
@@ -51,17 +59,9 @@ public class CustomAuthExceptionHandler implements AuthenticationEntryPoint {
             message = (message != null) ? message : "Unexpected error occurred";
         }
 
-        // Set the response content type and status
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.setStatus(statusCode);
-        response.setCharacterEncoding("UTF-8");
-
-        // Write the response as JSON
-        final ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(response.getOutputStream(), new CustomHttpResponse(
-            statusCode,
-            message,
-            null
-        ));
+        ResponseUtil.buildResponse(request, response, HttpStatus.valueOf(statusCode), 
+            "Authentication Error", 
+            message, 
+            null);
     }
 }

@@ -12,8 +12,5 @@ public interface RefreshTokenService {
     RefreshToken createRefreshToken(Long userId);
 
     // to verify expiration of refresh token
-    RefreshToken verifyExpiration(RefreshToken token);
-
-    // to delete refresh token by user id
-    int deleteByUserId(Long userId);
+    Boolean isTokenExpired(RefreshToken token);
 }

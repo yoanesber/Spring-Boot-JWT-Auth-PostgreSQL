@@ -15,10 +15,10 @@ import lombok.Setter;
  * The @Embeddable annotation indicates that this class can be embedded in another entity.
  */
 
+@AllArgsConstructor // Helps create DTO objects easily (useful when converting from entities).
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
+@NoArgsConstructor // Required for Jackson deserialization when receiving JSON requests.
 @Setter
 @Embeddable
 public class RefreshTokenId {

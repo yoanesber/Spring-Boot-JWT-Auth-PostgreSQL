@@ -71,13 +71,27 @@ public class CustomUserDetails implements UserDetails {
         return this.user.isCredentialsNonExpired();
     }
 
+    public EUserType getUserType() {
+        return this.user.getUserType();
+    }
+
     public Instant getLastLogin() {
         return this.user.getLastLogin();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.user.getUserRoles().stream().map(userRole -> new SimpleGrantedAuthority(userRole.getRole().getName()))
-            .collect(Collectors.toList());
+        return this.user.getRoles().stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public String toString() {
+        return "CustomUserDetails [id=" + user.getId() + ", username=" + user.getUserName() + ", email=" + user.getEmail()
+                + ", firstName=" + user.getFirstName() + ", lastName=" + user.getLastName() + ", isEnabled="
+                + user.isEnabled() + ", isAccountNonExpired=" + user.isAccountNonExpired() + ", isAccountNonLocked="
+                + user.isAccountNonLocked() + ", isCredentialsNonExpired=" + user.isCredentialsNonExpired()
+                + ", userType=" + user.getUserType().name() + ", lastLogin=" + user.getLastLogin() + "]";
     }
 }

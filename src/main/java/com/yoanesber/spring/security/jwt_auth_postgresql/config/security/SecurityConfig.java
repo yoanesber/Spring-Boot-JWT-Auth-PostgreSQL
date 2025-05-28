@@ -1,4 +1,4 @@
-package com.yoanesber.spring.security.jwt_auth_postgresql.config;
+package com.yoanesber.spring.security.jwt_auth_postgresql.config.security;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,9 +20,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.yoanesber.spring.security.jwt_auth_postgresql.handler.CustomAccessDeniedHandler;
 import com.yoanesber.spring.security.jwt_auth_postgresql.handler.CustomAuthExceptionHandler;
-import com.yoanesber.spring.security.jwt_auth_postgresql.handler.JwtAuthFilterHandler;
 import com.yoanesber.spring.security.jwt_auth_postgresql.service.CustomUserDetailsService;
-import com.yoanesber.spring.security.jwt_auth_postgresql.service.JwtService;
 
 /*
  * SecurityConfig is a configuration class for Spring Security.
@@ -40,7 +38,6 @@ public class SecurityConfig {
     private final CustomAccessDeniedHandler accessDeniedHandler;
     private final CustomAuthExceptionHandler authExceptionHandler;
     private final CustomUserDetailsService customUserDetailsService;
-    private final JwtService jwtService;
 
     @Value("#{'${permit-all-request-url}'.split(',')}")
     private String[] permitAllRequestURL;
@@ -68,17 +65,22 @@ public class SecurityConfig {
     
     public SecurityConfig(CustomAccessDeniedHandler accessDeniedHandler,
         CustomAuthExceptionHandler authExceptionHandler,
-        CustomUserDetailsService customUserDetailsService,
-        JwtService jwtService) {
+        CustomUserDetailsService customUserDetailsService) {
         this.accessDeniedHandler = accessDeniedHandler;
         this.authExceptionHandler = authExceptionHandler;
         this.customUserDetailsService = customUserDetailsService;
-        this.jwtService = jwtService;
     }
 
     @Bean
-    public JwtAuthFilterHandler jwtAuthenticationFilter() {
-        return new JwtAuthFilterHandler(jwtService, customUserDetailsService);
+    public PasswordEncoder passwordEncoder() {
+        // Return a new instance of BCryptPasswordEncoder as the password encoder
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public JwtAuthFilter jwtAuthFilter() {
+        // Create a new instance of JwtAuthFilter with the custom UserDetailsService
+        return new JwtAuthFilter(customUserDetailsService);
     }
 
     @Bean
@@ -94,12 +96,6 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         // Return the authentication manager from the authentication configuration
         return authConfig.getAuthenticationManager();
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        // Return a new instance of BCryptPasswordEncoder as the password encoder
-        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -132,10 +128,10 @@ public class SecurityConfig {
                 .requestMatchers("/api/v1/netflix-shows/**").hasRole("USER") // Allow requests to the /api/v1/netflix-shows/** endpoint only for users with the USER role
                 .anyRequest().authenticated()) // Allow all requests to the permitAllRequestURL without authentication and require authentication for other requests
             .exceptionHandling(exception -> exception
-                .authenticationEntryPoint(authExceptionHandler) // Set the authentication entry point to the custom AuthExceptionHandler
-                .accessDeniedHandler(accessDeniedHandler)) // Set the access denied handler to the custom AuthExceptionHandler
+                .authenticationEntryPoint(authExceptionHandler) // Using CustomAuthExceptionHandler to handle authentication exceptions
+                .accessDeniedHandler(accessDeniedHandler)) // Using CustomAccessDeniedHandler to handle access denied exceptions
             .authenticationProvider(authenticationProvider()) // Set the authentication provider
-            .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class); // Add the JWT filter before the UsernamePasswordAuthenticationFilter
+            .addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class); // Add the JWT filter before the UsernamePasswordAuthenticationFilter
     
         return http.build();
     }

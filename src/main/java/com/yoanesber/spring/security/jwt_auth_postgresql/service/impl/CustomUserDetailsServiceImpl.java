@@ -40,7 +40,7 @@ public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
         // Check if the user exists
         if (user != null) {
             // Initialize the lazy-loaded roles collection
-            Hibernate.initialize(user.getUserRoles());
+            Hibernate.initialize(user.getRoles());
 
             // Return the user
             return CustomUserDetails.build(user);

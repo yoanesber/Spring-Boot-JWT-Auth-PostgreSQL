@@ -1,0 +1,8 @@
+README.md
+Makefile
+*.md
+.gitignore
+.git/
+logs/
+docker/
+.vscode/

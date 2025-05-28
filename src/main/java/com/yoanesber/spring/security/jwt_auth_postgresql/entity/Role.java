@@ -1,20 +1,21 @@
 package com.yoanesber.spring.security.jwt_auth_postgresql.entity;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Role is an entity class that represents a role in the database.
@@ -24,10 +25,10 @@ import lombok.Setter;
  * The @Table annotation specifies the name of the table in the database.
  */
 
+@AllArgsConstructor // Helps create DTO objects easily (useful when converting from entities).
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
+@NoArgsConstructor // Required for Jackson deserialization when receiving JSON requests.
 @Setter
 @Entity
 @Table(name = "roles")
@@ -38,10 +39,20 @@ public class Role {
 
     @Column(name = "name", length = 20, nullable = false)
     private String name;
+    
+    @JsonIgnore
+    @ManyToMany(mappedBy = "roles")
+    public List<User> users = new ArrayList<>();
 
-    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = false)
-    // mappedBy is the name of the field in the other entity that maps this relationship
-    // cascade = CascadeType.ALL means that if an User is deleted, all related UserRole will also be deleted
-    // orphanRemoval = false Because ON DELETE NO ACTION is used, orphan removal should not be enabled
-    private List<UserRole> userRoles = new ArrayList<>();
+    public Role(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

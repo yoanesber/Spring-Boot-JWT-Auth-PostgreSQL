@@ -1,7 +1,7 @@
 package com.yoanesber.spring.security.jwt_auth_postgresql.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,9 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.yoanesber.spring.security.jwt_auth_postgresql.dto.HttpResponseDTO;
 import com.yoanesber.spring.security.jwt_auth_postgresql.dto.NetflixShowsDTO;
-import com.yoanesber.spring.security.jwt_auth_postgresql.entity.CustomHttpResponse;
 import com.yoanesber.spring.security.jwt_auth_postgresql.service.NetflixShowsService;
+import com.yoanesber.spring.security.jwt_auth_postgresql.util.ResponseUtil;
 
 /**
  * NetflixShowsController is a REST controller that handles HTTP requests related to Netflix shows.
@@ -28,129 +29,194 @@ public class NetflixShowsController {
 
     private final NetflixShowsService netflixShowsService;
 
+    private static final String INVALID_REQUEST = "Invalid Request";
+    private static final String INTERNAL_SERVER_ERROR = "Internal Server Error";
+    private static final String RECORD_NOT_FOUND = "Record not found";
+    private static final String RECORD_RETRIEVED_SUCCESSFULLY = "Record retrieved successfully";
+    private static final String RECORD_CREATED_SUCCESSFULLY = "Record created successfully";
+    private static final String RECORD_UPDATED_SUCCESSFULLY = "Record updated successfully";
+    private static final String RECORD_DELETED_SUCCESSFULLY = "Record deleted successfully";
+
     public NetflixShowsController(NetflixShowsService netflixShowsService) {
         this.netflixShowsService = netflixShowsService;
     }
 
     @PostMapping
-    public ResponseEntity<Object> createNetflixShows(@RequestBody NetflixShowsDTO netflixShowsDTO) {
-        try {
-            // Check if the input is null
-            if (netflixShowsDTO == null) {
-                return ResponseEntity.badRequest().body(new CustomHttpResponse(HttpStatus.BAD_REQUEST.value(), 
-                    "NetflixShowsDTO must not be null", null));
-            }
+    public ResponseEntity<HttpResponseDTO> createNetflixShows(@RequestBody NetflixShowsDTO netflixShowsRequest,
+        HttpServletRequest request) {
+        // Validate the request body
+        if (netflixShowsRequest == null || 
+            netflixShowsRequest.getTitle() == null || 
+            netflixShowsRequest.getTitle().isEmpty()) {
+            // Return a bad request response if the request body is invalid
+            return ResponseUtil.buildBadRequestResponse(request, 
+                INVALID_REQUEST,
+                "NetflixShowsRequest must not be null or empty", 
+                null);
+        }
 
+        try {
             // Create Netflik show & Return the response
-            return ResponseEntity.created(null).body(new CustomHttpResponse(HttpStatus.CREATED.value(), 
-                "NetflixShows created successfully", netflixShowsService.createNetflixShows(netflixShowsDTO)));
+            return ResponseUtil.buildOkResponse(request, 
+                RECORD_CREATED_SUCCESSFULLY,
+                netflixShowsService.createNetflixShows(netflixShowsRequest));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(new CustomHttpResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), 
-                e.getMessage(), null));
+            // Return an internal server error response if an exception occurs
+            return ResponseUtil.buildInternalServerErrorResponse(request, 
+                INTERNAL_SERVER_ERROR,
+                "An error occurred while creating NetflixShows: " + e.getMessage(), 
+                null);
         }
     }
 
     @GetMapping
-    public ResponseEntity<Object> getAllNetflixShows() {
+    public ResponseEntity<HttpResponseDTO> getAllNetflixShows(HttpServletRequest request) {
         try {
             // Get all NetflixShows
             List<NetflixShowsDTO> netflixShows = netflixShowsService.getAllNetflixShows();
 
             // Check if the list is empty
             if (netflixShows == null || netflixShows.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomHttpResponse(HttpStatus.NOT_FOUND.value(), 
-                    "No NetflixShows found", null));
+                // Return a not found response if no NetflixShows are found
+                return ResponseUtil.buildNotFoundResponse(request, 
+                    RECORD_NOT_FOUND, 
+                    "No NetflixShows found in the database", 
+                    null);
             }
 
-            // Return the response
-            return ResponseEntity.ok(new CustomHttpResponse(HttpStatus.OK.value(), 
-                "NetflixShows retrieved successfully", netflixShows));
+            // Return the response with the list of NetflixShows
+            return ResponseUtil.buildOkResponse(request, 
+                RECORD_RETRIEVED_SUCCESSFULLY,
+                netflixShows);
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(new CustomHttpResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), 
-                e.getMessage(), null));
+            // Return an internal server error response if an exception occurs
+            return ResponseUtil.buildInternalServerErrorResponse(request, 
+                INTERNAL_SERVER_ERROR, 
+                "An error occurred while retrieving NetflixShows: " + e.getMessage(), 
+                null);
         }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getNetflixShowsById(@PathVariable Long id) {
-        try {
-            // Check if the ID is null
-            if (id == null) {
-                return ResponseEntity.badRequest().body(new CustomHttpResponse(HttpStatus.BAD_REQUEST.value(), 
-                    "ID must not be null", null));
-            }
+    public ResponseEntity<HttpResponseDTO> getNetflixShowsById(@PathVariable Long id,
+        HttpServletRequest request) {
+        // Validate the ID
+        if (id == null) {
+            // Return a bad request response if the ID is null
+            return ResponseUtil.buildBadRequestResponse(request, 
+                INVALID_REQUEST,
+                "ID must not be null", 
+                null);
+        }
 
+        try {
             // Get the NetflixShows by ID
             NetflixShowsDTO netflixShows = netflixShowsService.getNetflixShowsById(id);
 
             // Check if the NetflixShows is null
             if (netflixShows == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomHttpResponse(HttpStatus.NOT_FOUND.value(), 
-                    "NetflixShows not found", null));
+                // Return a not found response if the NetflixShows is not found
+                return ResponseUtil.buildNotFoundResponse(request, 
+                    RECORD_NOT_FOUND, 
+                    "NetflixShows not found with ID: " + id, 
+                    null);
             }
 
-            // Return the response
-            return ResponseEntity.ok(new CustomHttpResponse(HttpStatus.OK.value(), 
-                "NetflixShows retrieved successfully", netflixShows));
+            // Return ok response with the NetflixShows
+            return ResponseUtil.buildOkResponse(request, 
+                RECORD_RETRIEVED_SUCCESSFULLY,
+                netflixShows);
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(new CustomHttpResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), 
-                e.getMessage(), null));
+            // Return an internal server error response if an exception occurs
+            return ResponseUtil.buildInternalServerErrorResponse(request, 
+                INTERNAL_SERVER_ERROR, 
+                "An error occurred while retrieving NetflixShows: " + e.getMessage(), 
+                null);
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateNetflixShows(@PathVariable Long id, @RequestBody NetflixShowsDTO netflixShowsDTO) {
+    public ResponseEntity<HttpResponseDTO> updateNetflixShows(@PathVariable Long id, 
+        @RequestBody NetflixShowsDTO netflixShowsRequest, HttpServletRequest request) {
+        // Validate the ID
+        if (id == null) {
+            // Return a bad request response if the ID is null
+            return ResponseUtil.buildBadRequestResponse(request, 
+                INVALID_REQUEST,
+                "ID must not be null", 
+                null);
+        }
+
+        // Validate the request body
+        if (netflixShowsRequest == null ||
+            netflixShowsRequest.getTitle() == null ||
+            netflixShowsRequest.getTitle().isEmpty()) {
+            // Return a bad request response if the request body is invalid
+            return ResponseUtil.buildBadRequestResponse(request, 
+                INVALID_REQUEST,
+                "NetflixShowsRequest must not be null or empty", 
+                null);
+        }
+
         try {
-            // Check if the ID and NetflixShowsDTO is null
-            if (id == null) {
-                return ResponseEntity.badRequest().body(new CustomHttpResponse(HttpStatus.BAD_REQUEST.value(), 
-                    "ID must not be null", null));
-            }
-
-            if (netflixShowsDTO == null) {
-                return ResponseEntity.badRequest().body(new CustomHttpResponse(HttpStatus.BAD_REQUEST.value(), 
-                    "NetflixShowsDTO must not be null", null));
-            }
-
             // Update the NetflixShows
-            NetflixShowsDTO netflixShows = netflixShowsService.updateNetflixShows(id, netflixShowsDTO);
+            NetflixShowsDTO updatedNetflixShows = netflixShowsService
+                .updateNetflixShows(id, netflixShowsRequest);
 
             // Check if the NetflixShows is null
-            if (netflixShows == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomHttpResponse(HttpStatus.NOT_FOUND.value(), 
-                    "NetflixShows not found", null));
+            if (updatedNetflixShows == null) {
+                // Return a not found response if the NetflixShows is not found
+                return ResponseUtil.buildNotFoundResponse(request, 
+                    RECORD_NOT_FOUND, 
+                    "NetflixShows not found with ID: " + id, 
+                    null);
             }
 
-            // Return the response
-            return ResponseEntity.ok(new CustomHttpResponse(HttpStatus.OK.value(), 
-                "NetflixShows updated successfully", netflixShows));
+            // Return ok response with the updated NetflixShows
+            return ResponseUtil.buildOkResponse(request, 
+                RECORD_UPDATED_SUCCESSFULLY,
+                updatedNetflixShows);
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(new CustomHttpResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), 
-                e.getMessage(), null));
+            // Return an internal server error response if an exception occurs
+            return ResponseUtil.buildInternalServerErrorResponse(request, 
+                INTERNAL_SERVER_ERROR, 
+                "An error occurred while updating NetflixShows: " + e.getMessage(), 
+                null);
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteNetflixShows(@PathVariable Long id) {
-        try {
-            // Check if the ID is null
-            if (id == null) {
-                return ResponseEntity.badRequest().body(new CustomHttpResponse(HttpStatus.BAD_REQUEST.value(), 
-                    "ID must not be null", null));
-            }
+    public ResponseEntity<HttpResponseDTO> deleteNetflixShows(@PathVariable Long id,
+        HttpServletRequest request) {
+        // Validate the ID
+        if (id == null) {
+            // Return a bad request response if the ID is null
+            return ResponseUtil.buildBadRequestResponse(request, 
+                INVALID_REQUEST,
+                "ID must not be null", 
+                null);
+        }
 
+        try {
             // Delete the NetflixShows
             if (!netflixShowsService.deleteNetflixShows(id)) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomHttpResponse(HttpStatus.NOT_FOUND.value(), 
-                    "NetflixShows not found", null));
+                // Return a not found response if the NetflixShows is not found
+                return ResponseUtil.buildNotFoundResponse(request, 
+                    RECORD_NOT_FOUND, 
+                    "NetflixShows not found with ID: " + id, 
+                    null);
             }
 
-            // Return the response
-            return ResponseEntity.ok(new CustomHttpResponse(HttpStatus.OK.value(), 
-                "NetflixShows deleted successfully", null));
+            // Return ok response if the NetflixShows is deleted successfully
+            return ResponseUtil.buildOkResponse(request, 
+                RECORD_DELETED_SUCCESSFULLY,
+                null);
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(new CustomHttpResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), 
-                e.getMessage(), null));
+            // Return an internal server error response if an exception occurs
+            return ResponseUtil.buildInternalServerErrorResponse(request, 
+                INTERNAL_SERVER_ERROR, 
+                "An error occurred while deleting NetflixShows: " + e.getMessage(), 
+                null);
         }
     }
     

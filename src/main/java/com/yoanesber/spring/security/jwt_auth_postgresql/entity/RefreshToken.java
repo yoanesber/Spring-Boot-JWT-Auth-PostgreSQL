@@ -22,10 +22,10 @@ import lombok.Setter;
  * The @Table annotation specifies the name of the table in the database.
  */
 
+@AllArgsConstructor // Helps create DTO objects easily (useful when converting from entities).
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
+@NoArgsConstructor // Required for Jackson deserialization when receiving JSON requests.
 @Setter
 @Entity
 @Table(name = "refresh_token")

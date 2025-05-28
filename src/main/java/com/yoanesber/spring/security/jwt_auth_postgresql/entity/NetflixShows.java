@@ -9,6 +9,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.sql.Date;
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -23,10 +25,10 @@ import lombok.Setter;
  * The @Table annotation specifies the name of the table in the database.
  */
 
+@AllArgsConstructor // Helps create DTO objects easily (useful when converting from entities).
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
+@NoArgsConstructor // Required for Jackson deserialization when receiving JSON requests.
 @Setter
 @Entity
 @Table(name = "netflix_shows")
@@ -48,7 +50,7 @@ public class NetflixShows {
     @Column(name = "cast_members", columnDefinition = "TEXT")
     private String castMembers;
 
-    @Column(name = "country", length = 60, nullable = false)
+    @Column(name = "country", length = 100)
     private String country;
 
     @Column(name = "date_added", nullable = false)
@@ -58,14 +60,35 @@ public class NetflixShows {
     private Integer releaseYear;
 
     @Column(name = "rating")
-    private Integer rating;
+    private String rating;
 
-    @Column(name = "duration_in_minute")
-    private Integer durationInMinute;
+    @Column(name = "duration")
+    private String duration;
 
     @Column(name = "listed_in", columnDefinition = "TEXT")
     private String listedIn;
 
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
+
+    @Column(name = "is_deleted", nullable = false, columnDefinition = "boolean default false")
+    private boolean isDeleted;
+
+    @Column(name = "created_by", nullable = false)
+    private Long createdBy;
+
+    @Column(name = "created_at", nullable = false, columnDefinition = "timestamp with time zone default now()")
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_by")
+    private Long updatedBy;
+
+    @Column(name = "updated_at", columnDefinition = "timestamp with time zone")
+    private LocalDateTime updatedAt;
+
+    @Column(name = "deleted_by")
+    private Long deletedBy;
+
+    @Column(name = "deleted_at", columnDefinition = "timestamp with time zone")
+    private LocalDateTime deletedAt;
 }

@@ -29,6 +29,5 @@ public class LoginResponseDTO {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
     private Date expirationDate;
-
     private String tokenType;
 }

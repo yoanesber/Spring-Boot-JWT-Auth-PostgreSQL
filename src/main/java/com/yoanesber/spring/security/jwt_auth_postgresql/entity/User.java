@@ -8,12 +8,16 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -28,10 +32,10 @@ import lombok.Setter;
  * The @Table annotation specifies the name of the table in the database.
  */
 
+@AllArgsConstructor // Helps create DTO objects easily (useful when converting from entities).
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
+@NoArgsConstructor // Required for Jackson deserialization when receiving JSON requests.
 @Setter
 @Entity
 @Table(name = "users")
@@ -55,47 +59,59 @@ public class User {
     @Column(name = "lastname", length = 20)
     private String lastName;
 
-    @Column(nullable = false, columnDefinition = "boolean default false")
-    private boolean isEnabled = false;
+    @Column(name = "is_enabled", nullable = false, columnDefinition = "boolean default true")
+    private boolean isEnabled;
 
-    @Column(nullable = false, columnDefinition = "boolean default false")
-    private boolean isAccountNonExpired = false;
+    @Column(name = "is_account_non_expired", nullable = false, columnDefinition = "boolean default true")
+    private boolean isAccountNonExpired;
 
-    @Column(nullable = false, columnDefinition = "boolean default false")
-    private boolean isAccountNonLocked = false;
+    @Column(name = "is_account_non_locked", nullable = false, columnDefinition = "boolean default true")
+    private boolean isAccountNonLocked;
 
-    @Column(nullable = false, columnDefinition = "boolean default false")
-    private boolean isCredentialsNonExpired = false;
+    @Column(name = "is_credentials_non_expired", nullable = false, columnDefinition = "boolean default true")
+    private boolean isCredentialsNonExpired;
 
-    @Column(nullable = false, columnDefinition = "boolean default false")
-    private boolean isDeleted = false;
+    @Column(name = "is_deleted", nullable = false, columnDefinition = "boolean default false")
+    private boolean isDeleted;
 
+    @Column(name = "account_expiration_date", columnDefinition = "timestamp with time zone")
     private Instant accountExpirationDate;
+
+    @Column(name = "credentials_expiration_date", columnDefinition = "timestamp with time zone")
     private Instant credentialsExpirationDate;
-    private Instant lastLogin;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 15)
+    @Column(name = "user_type", nullable = false, length = 20)
     private EUserType userType;
 
-    @Column(nullable = false, length = 20)
-    private String createdBy;
+    @Column(name = "last_login", columnDefinition = "timestamp with time zone")
+    private Instant lastLogin;
 
-    @Column(nullable = false, columnDefinition = "timestamp with time zone default now()")
-    private Instant createdDate = Instant.now();
+    @Column(name = "created_by", nullable = false)
+    private Long createdBy;
 
-    @Column(nullable = false, length = 20)
-    private String updatedBy;
+    @Column(name = "created_at", nullable = false, columnDefinition = "timestamp with time zone default now()")
+    private LocalDateTime createdAt;
 
-    @Column(nullable = false, columnDefinition = "timestamp with time zone default now()")
-    private Instant updatedDate = Instant.now();
+    @Column(name = "updated_by")
+    private Long updatedBy;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    // mappedBy is the name of the field in the other entity that maps this relationship
-    // cascade = CascadeType.ALL means that if an User is deleted, all related UserRole will also be deleted
-    // orphanRemoval = true means that if a UserRole is removed from the list, it will be deleted from the database. 
-    // Because ON DELETE CASCADE is used, orphan removal should be enabled.
-    private List<UserRole> userRoles = new ArrayList<>();
+    @Column(name = "updated_at", columnDefinition = "timestamp with time zone")
+    private LocalDateTime updatedAt;
+
+    @Column(name = "deleted_by")
+    private Long deletedBy;
+
+    @Column(name = "deleted_at", columnDefinition = "timestamp with time zone")
+    private LocalDateTime deletedAt;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+        name = "user_roles", // nama tabel join
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    public List<Role> roles = new ArrayList<>();
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = false)
     // mappedBy is the name of the field in the other entity that maps this relationship
@@ -103,8 +119,35 @@ public class User {
     // orphanRemoval = false Because ON DELETE NO ACTION is used, orphan removal should not be enabled
     private RefreshToken refreshToken;
 
+    // Mapping constructor to create a User entity from CustomUserDetails
+    public User(CustomUserDetails userDetails) {
+        this.id = userDetails.getId();
+        this.userName = userDetails.getUsername();
+        this.password = userDetails.getPassword();
+        this.email = userDetails.getEmail();
+        this.firstName = userDetails.getFirstName();
+        this.lastName = userDetails.getLastName();
+        this.isEnabled = userDetails.isEnabled();
+        this.isAccountNonExpired = userDetails.isAccountNonExpired();
+        this.isAccountNonLocked = userDetails.isAccountNonLocked();
+        this.isCredentialsNonExpired = userDetails.isCredentialsNonExpired();
+        this.userType = userDetails.getUserType();
+        this.lastLogin = userDetails.getLastLogin();
+        this.roles = userDetails.getAuthorities().stream()
+                .map(authority -> new Role(authority.getAuthority()))
+                .toList();
+    }
+
     @Override
     public String toString() {
-        return "User [id=" + id + ", userName=" + userName + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + "]";
+        return "User [id=" + id + ", userName=" + userName + ", password=" + password + ", email=" + email
+                + ", firstName=" + firstName + ", lastName=" + lastName + ", isEnabled=" + isEnabled
+                + ", isAccountNonExpired=" + isAccountNonExpired + ", isAccountNonLocked=" + isAccountNonLocked
+                + ", isCredentialsNonExpired=" + isCredentialsNonExpired + ", isDeleted=" + isDeleted
+                + ", accountExpirationDate=" + accountExpirationDate + ", credentialsExpirationDate="
+                + credentialsExpirationDate + ", lastLogin=" + lastLogin + ", userType=" + userType
+                + ", createdBy=" + createdBy + ", createdAt=" + createdAt + ", updatedBy=" + updatedBy
+                + ", updatedAt=" + updatedAt + ", deletedBy=" + deletedBy + ", deletedAt=" + deletedAt +
+                ", roles=" + roles + "]";
     }
 }
