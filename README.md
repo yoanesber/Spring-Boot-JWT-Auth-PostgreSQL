@@ -574,6 +574,7 @@ This endpoint allows users to create a new Netflix show by providing relevant de
 ```bash
 POST http://localhost:8080/api/v1/netflix-shows
 Content-Type: application/json
+Authorization: Bearer <JWT_TOKEN>
 ```  
 
 ##### Scenario 1: Successful Create Record
@@ -675,6 +676,7 @@ Retrieves a list of all Netflix shows stored in the database.
 
 ```bash
 GET http://localhost:8080/api/v1/netflix-shows
+Authorization: Bearer <JWT_TOKEN>
 ```  
 
 **Successful Response:**  
@@ -714,6 +716,7 @@ Fetches the details of a specific Netflix show using its unique ID.
 
 ```bash
 GET http://localhost:8080/api/v1/netflix-shows/{id}  
+Authorization: Bearer <JWT_TOKEN>
 ```  
 
 **Successful Response:**  
@@ -763,6 +766,8 @@ Allows updating the details of an existing Netflix show.
 
 ```bash
 PUT http://localhost:8080/api/v1/netflix-shows/{id}  
+Content-Type: application/json
+Authorization: Bearer <JWT_TOKEN>
 ```  
 
 **Request Body:**  
@@ -839,6 +844,7 @@ All `GET` endpoints are designed to exclude records where `is_deleted = true`.
 
 ```bash
 DELETE http://localhost:8080/api/v1/netflix-shows/{id}  
+Authorization: Bearer <JWT_TOKEN>
 ```  
 
 **Successful Response:**  

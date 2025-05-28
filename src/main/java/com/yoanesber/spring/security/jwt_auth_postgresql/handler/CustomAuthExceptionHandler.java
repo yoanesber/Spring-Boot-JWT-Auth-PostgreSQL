@@ -31,7 +31,8 @@ public class CustomAuthExceptionHandler implements AuthenticationEntryPoint {
         // Check if the request method is POST and the Content-Type is not application/json
         // If the Content-Type is not application/json, send an error response
         String contentType = request.getContentType();
-        if (request.getMethod().equals("POST") && (contentType == null || !contentType.equals(MediaType.APPLICATION_JSON_VALUE))) {
+        if ((request.getMethod().equals("POST") || request.getMethod().equals("PUT")) && 
+            (contentType == null || !contentType.equals(MediaType.APPLICATION_JSON_VALUE))) {
             ResponseUtil.buildResponse(request, response, HttpStatus.UNSUPPORTED_MEDIA_TYPE, 
                 "Unsupported Media Type", "Content-Type must be application/json", null);
             return;
