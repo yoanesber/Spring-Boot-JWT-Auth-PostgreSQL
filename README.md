@@ -44,12 +44,15 @@ By keeping authentication and token renewal separate, the design promotes clarit
 
 The technology used in this project are:  
 
-- `Spring Boot Starter Web` – Building RESTful APIs or web applications
-- `Spring Security` – Provides authentication and authorization mechanisms, ensuring secure access to the application.
-- `JJWT (api, impl, jackson)` – Open-source library for creating and verifying JSON Web Tokens (JWTs) used for authentication.
-- `PostgreSQL` – Serves as the database for storing Netflix Shows
-- `Hibernate` – Simplifying database interactions
-- `Lombok` – Reducing boilerplate code
+| Dependency                      | Description                                                                 |
+|---------------------------------|-----------------------------------------------------------------------------|
+| **Spring Boot Starter Web**     | Building RESTful APIs or web applications                                   |
+| **Spring Security**             | Provides authentication and authorization mechanisms for secure access      |
+| **JJWT (api, impl, jackson)**   | Library for creating and verifying JSON Web Tokens (JWTs) used in auth      |
+| **PostgreSQL**                  | Serves as the relational database for storing Netflix Shows                 |
+| **Hibernate**                   | Simplifies database interactions via JPA                                    |
+| **Lombok**                      | Reduces boilerplate code (e.g., getters, setters, constructors)             |
+
 ---
 
 ## 🧱 Architecture Overview  
