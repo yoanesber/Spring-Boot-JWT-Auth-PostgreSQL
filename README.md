@@ -105,7 +105,7 @@ Make sure the following tools are installed on your system:
 
 | Tool                                      | Description                                                                 | Required      |
 |-------------------------------------------|-----------------------------------------------------------------------------|---------------|
-| [Java 17+](https://adoptium.net/)         | Java Development Kit (JDK) to run the Quarkus application                   | ✅            |
+| [Java 17+](https://adoptium.net/)         | Java Development Kit (JDK) to run the Spring application                   | ✅            |
 | [PostgreSQL](https://www.postgresql.org/) | Relational database to persist application data                             | ✅            |
 | [Make](https://www.gnu.org/software/make/)| Automation tool for tasks like `make run-app`                               | ✅            |
 | [Docker](https://www.docker.com/)         | To run services like PostgreSQL in isolated containers                      | ⚠️ *optional* |
@@ -340,7 +340,7 @@ This section provides step-by-step instructions to run the application either **
 
 ### 🔧 Run Locally (Non-containerized)
 
-Ensure PostgreSQL and Kafka are running locally, then:
+Ensure PostgreSQL are running locally, then:
 
 ```bash
 make dev
@@ -348,7 +348,7 @@ make dev
 
 ### 🐳 Run Using Docker
 
-To build and run all services (PostgreSQL, Apache Kafka, Quarkus app):
+To build and run all services (PostgreSQL, Spring app):
 
 ```bash
 make docker-start-all
