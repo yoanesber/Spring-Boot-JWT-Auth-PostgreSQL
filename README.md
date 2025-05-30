@@ -108,7 +108,7 @@ Make sure the following tools are installed on your system:
 | [Java 17+](https://adoptium.net/)         | Java Development Kit (JDK) to run the Quarkus application                   | ✅            |
 | [PostgreSQL](https://www.postgresql.org/) | Relational database to persist application data                             | ✅            |
 | [Make](https://www.gnu.org/software/make/)| Automation tool for tasks like `make run-app`                               | ✅            |
-| [Docker](https://www.docker.com/)         | To run services like Kafka/PostgreSQL in isolated containers                | ⚠️ *optional* |
+| [Docker](https://www.docker.com/)         | To run services like PostgreSQL in isolated containers                      | ⚠️ *optional* |
 
 ### ☕ 1. Install Java 17  
 
