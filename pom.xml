@@ -8,17 +8,28 @@
 		<version>3.4.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.yoanesber.spring.security</groupId>
-	<artifactId>jwt-auth-postgresql</artifactId>
+	<groupId>com.yoanesber.backend</groupId>
+	<artifactId>jwt-auth-demo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>jwt-auth-postgresql</name>
-	<description>This project is a REST API for managing Netflix Shows, built using Spring Boot 3.4.2. It leverages PostgreSQL as the database, Spring Data JPA for data management, and Spring Boot Starter Security for authentication and authorization. The API is secured using JWT (JSON Web Token), implemented with the open-source JJWT library</description>
+	<name>jwt-auth-demo</name>
+	<description>A demo project for JWT authentication using Spring Boot</description>
 	<url/>
 	<licenses>
 		<license/>
 	</licenses>
 	<developers>
-		<developer/>
+		<developer>
+			<name>Yoanes Berchmans</name>
+			<roles>
+				<role>developer</role>
+			</roles>
+			<organization>Yoanes Berchmans</organization>
+			<organizationUrl>https://yoanesber-example.com</organizationUrl>
+			<timezone>Asia/Jakarta</timezone>
+			<id>yoanesber</id>
+			<url>https://github.com/yoanesber</url>
+			<email>yoanes.berchmans@example.com</email>
+		</developer>
 	</developers>
 	<scm>
 		<connection/>

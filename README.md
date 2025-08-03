@@ -71,8 +71,9 @@ The project follows a modular architecture to ensure **separation of concerns**,
         │       └── init.sql               # SQL script to create database, user, and grant permissions
         ├── 📂java/
         │   ├── 📂config/                  # Spring configuration classes (e.g., security, serializer)
-        │   │   ├── 📂security/            # Security-related configuration (filters, providers, etc.)
-        │   │   └── 📂serializer/          # Custom Jackson serializers/deserializers (e.g., for `Instant`)
+        │   │   ├── 📂security/            # Security-related configuration (cors, jwt)
+        │   │   ├── 📂serializer/          # Custom Jackson serializers/deserializers (e.g., for `Instant`)
+        │   │   └── 📂shutdown/            # Custom shutdown logic (e.g., for graceful shutdown)
         │   ├── 📂controller/              # REST API endpoints (e.g., AuthController, NetflixShowsController)
         │   ├── 📂dto/                     # Data Transfer Objects for requests/responses
         │   ├── 📂entity/                  # JPA entity classes mapped to database tables
@@ -206,7 +207,7 @@ Set up your `application.properties` in `src/main/resources`:
 
 ```properties
 # application configuration
-spring.application.name=jwt-auth-postgresql
+spring.application.name=jwt-auth-demo
 server.port=8080
 spring.profiles.active=development
 
@@ -220,7 +221,6 @@ spring.sql.init.mode=always
 ## hibernate configuration
 spring.jpa.show-sql=true
 spring.jpa.hibernate.ddl-auto=create-drop
-spring.jpa.hibernate.naming.implicit-strategy=org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
 spring.jpa.properties.hibernate.format_sql=true
 spring.jpa.open-in-view=true
 
@@ -228,7 +228,7 @@ spring.jpa.open-in-view=true
 ## jwt configuration
 jwt.header=Authorization
 jwt.token.type=Bearer
-jwt.issuer=http://localhost:8080/realms/jwt-auth
+jwt.issuer=http://localhost:8080/auth/login
 jwt.expiration-ms=900000
 jwt.refresh-token.expiration-ms=1296000000
 jwt.cookie.name=accessToken
@@ -244,16 +244,16 @@ jwt.private-key-file=./src/main/resources/privateKey.pem
 jwt.public-key-file=./src/main/resources/publicKey.pem
 jwt.keySize=2048
 # optional: if you want to use symmetric encryption (HMAC)
-jwt.key-secret=qwertyuiopasdfghjklzxcvbnm1234567890abcd
+jwt.key-secret=a-string-secret-at-least-256-bits-long
 
 ## cors configuration
-cors-allowed-origins=http://localhost:8080
+cors-allowed-origins=http://localhost:8082,http://localhost:8083,https://jwt-auth-postgres:8082,https://jwt-auth-postgres:8083
 cors-allowed-methods=GET,POST,PUT,DELETE,OPTIONS
 cors-allowed-headers=Authorization,Cache-Control,Content-Type
+cors-exposed-headers=Authorization,Content-Length
+cors-configuration-endpoint=/**
 cors-allow-credentials=true
 cors-max-age=3600
-cors-exposed-headers=Authorization
-cors-configuration-endpoint=/**
 
 ## http security
 permit-all-request-url=/api/v1/auth/**
@@ -364,7 +364,7 @@ make docker-stop-all
   - Before running the application inside Docker, make sure to update your `application.properties`
     - Replace `localhost` with the appropriate **container name** for services like PostgreSQL.  
     - For example:
-      - Change `localhost:5432` to `jwt-auth-postgres:5432`
+      - Change `localhost:5432` to `postgres-server:5432`
 
 ### 🟢 Application is Running
 

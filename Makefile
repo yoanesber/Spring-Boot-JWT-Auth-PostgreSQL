@@ -1,13 +1,13 @@
 # Variables for the application containers
-APP_CONTAINER_IMAGE=my-jwt-auth-postgres-app
-APP_CONTAINER_NAME=jwt-auth-postgres-app
+APP_CONTAINER_IMAGE=my-spring-app
+APP_CONTAINER_NAME=spring-app
 APP_DOCKER_CONTEXT=.
 APP_DOCKERFILE=./src/main/docker/app/Dockerfile
 APP_PORT=8081
 
 # Variables for the PostgreSQL container
-POSTGRES_CONTAINER_IMAGE=my-jwt-auth-postgres
-POSTGRES_CONTAINER_NAME=jwt-auth-postgres
+POSTGRES_CONTAINER_IMAGE=my-postgres-server
+POSTGRES_CONTAINER_NAME=postgres-server
 POSTGRES_DOCKER_CONTEXT=.
 POSTGRES_DOCKERFILE=./src/main/docker/postgres/Dockerfile
 POSTGRES_PORT=5432
@@ -29,6 +29,11 @@ generate-jwt-keys:
 dev:
 	@echo "Running in development mode..."
 	./mvnw spring-boot:run
+
+# Cleaning the project
+clean:
+	@echo "Cleaning the project..."
+	./mvnw clean
 
 # Building the application as a JAR file
 # This will run Maven Lifecycle phase "package": clean → validate → compile → test → package, 
@@ -90,7 +95,7 @@ docker-start-all: docker-create-network docker-build-run-postgres docker-build-r
 # Stop all services: PostgreSQL and the application
 docker-stop-all: docker-remove-app docker-remove-postgres docker-remove-network
 
-.PHONY: generate-jwt-keys dev package \
+.PHONY: generate-jwt-keys dev clean package \
 	docker-create-network docker-remove-network \
 	docker-build-postgres docker-run-postgres docker-build-run-postgres docker-remove-postgres \
 	docker-build-app docker-run-app docker-build-run-app docker-remove-app \
