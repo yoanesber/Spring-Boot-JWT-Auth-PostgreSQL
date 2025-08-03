@@ -60,7 +60,7 @@ The technology used in this project are:
 The project follows a modular architecture to ensure **separation of concerns**, **testability**, and **maintainability**. Here's a breakdown of each module's responsibility:  
 
 ```bash
-📂jwt-auth-postgresql/
+📂jwt-auth-demo/
 └── 📂src/
     └── 📂main/
         ├── 📂docker/
