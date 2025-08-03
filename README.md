@@ -1,4 +1,4 @@
-# Netflix Shows REST API with JWT Authentication
+# JWT Authentication Demo
 
 ## 📖 Overview  
 
